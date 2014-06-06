@@ -121,6 +121,54 @@ void test_leftRotate_will_work_if_there_are_special_case()
 		
 }
 
+/*
+*      (10)             (30)
+*     /   \             /   \
+*   (5)   (30)    =>  (10)   (40)
+*   /     /   \        / \    
+*  (1)   (20) (40)	 (5) (20)
+*           \         /    \
+*          (35)      (1)   (35)
+*/
+void test_leftRotate_will_work_if_there_are_special_case_for_3_levels()
+{
+	Node N1={.rank=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N5={.rank=-1 ,.leftChild=&N1 ,.rightChild=NULL,.data=5},	
+		
+		N35={.rank=0 ,.leftChild=NULL ,.rightChild=NULL,.data=35},
+		N20={.rank=0 ,.leftChild=NULL ,.rightChild=&N35,.data=20},
+		N40={.rank=-1 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+		N30={.rank=1 ,.leftChild=&N20 ,.rightChild=&N40,.data=30},
+		N10={.rank=1 ,.leftChild=&N5 ,.rightChild=&N30,.data=10};
+	Node *testNode;
+	
+	testNode =leftRotate(&N10);
+	TEST_ASSERT_EQUAL(&N30,testNode);
+	TEST_ASSERT_EQUAL(&N10,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N20,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL(&N35,testNode->leftChild->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N5,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N40,testNode->rightChild);
+	
+	TEST_ASSERT_EQUAL(-2,testNode->rank);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->rank);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rank);
+	TEST_ASSERT_EQUAL(-1,testNode->leftChild->leftChild->rank);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->leftChild->rank);
+	TEST_ASSERT_EQUAL(1,testNode->leftChild->rightChild->rank);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->rightChild->rank);
+
+	TEST_ASSERT_NULL(testNode->leftChild->leftChild->leftChild->leftChild);
+	TEST_ASSERT_NULL(testNode->leftChild->leftChild->leftChild->rightChild);
+	TEST_ASSERT_NULL(testNode->leftChild->rightChild->leftChild);
+	TEST_ASSERT_NULL(testNode->leftChild->leftChild->rightChild);
+	TEST_ASSERT_NULL(testNode->rightChild->rightChild);
+	TEST_ASSERT_NULL(testNode->rightChild->leftChild);
+		
+}
+
+
 
 /*
 *        (50)                    (100)
