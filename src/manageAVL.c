@@ -6,9 +6,7 @@ Node* leftRotate(Node *elem)
 	Node *tempNode=elem->rightChild;
 	elem->rightChild = tempNode->leftChild;
 	tempNode->leftChild = elem;
-	tempNode->rank = getRank(tempNode);
-	tempNode->rightChild->rank= getRank(tempNode->rightChild);
-	tempNode->leftChild->rank= getRank(tempNode->leftChild);
+	getRank(tempNode);
 	return tempNode;
 }
 
@@ -18,32 +16,35 @@ Node* rightRotate(Node *elem)
 	elem->leftChild = tempNode->rightChild;
 	tempNode->rightChild = elem;
 	tempNode->rank++;
-	tempNode->rank = getRank(tempNode);
-	tempNode->rightChild->rank= getRank(tempNode->rightChild);
-	tempNode->leftChild->rank= getRank(tempNode->leftChild);
+	getRank(tempNode);
 	return tempNode;
 }
 
 Node* doubleRightRotate(Node *elem)
 {
 	Node *tempNode=elem->leftChild->rightChild;
-	if(tempNode->rightChild==NULL)
-	tempNode->rightChild=tempNode->leftChild;
+	Node *tempNode2= tempNode->leftChild;
+
 	tempNode->leftChild = elem->leftChild;
 	elem->leftChild = tempNode;
-	tempNode->rank--;
-	tempNode->leftChild->rank--;
-	tempNode->leftChild->rightChild=NULL;
+	tempNode->leftChild->rightChild=tempNode2;
 	tempNode = rightRotate(elem);
-	if(tempNode->rank!=0)
-	{
-		tempNode->rank--;
-	}
+	getRank(tempNode);
 	return tempNode;
 }
 
 Node* doubleLeftRotate(Node *elem)
 {
+	Node *tempNode=elem->rightChild->leftChild;
+	Node *tempNode2= tempNode->rightChild;
+
+	tempNode->rightChild = elem->rightChild;
+	elem->rightChild = tempNode;
+	tempNode->rightChild->leftChild=tempNode2;
+	tempNode = leftRotate(elem);
+	getRank(tempNode);
+	return tempNode;
+	/*
 	Node *tempNode=elem->rightChild->leftChild;
 	tempNode->rightChild = elem->rightChild;
 	elem->rightChild = tempNode;
@@ -56,6 +57,7 @@ Node* doubleLeftRotate(Node *elem)
 		tempNode->rank++;
 	}
 	return tempNode;
+	*/
 }
 
 int getHeight(Node *elem)
@@ -80,10 +82,16 @@ int getHeight(Node *elem)
 	}
 }
 
-int getRank(Node *elem)
+void getRank(Node *elem)
 {
 	int leftHeight=0,rightHeight=0;
-	rightHeight = getHeight(elem->rightChild);
-	leftHeight = getHeight(elem->leftChild);
-	return rightHeight-leftHeight;
+	if(elem!=NULL)
+	{
+		getRank(elem->leftChild);
+		getRank(elem->rightChild);
+		rightHeight = getHeight(elem->rightChild);
+		leftHeight = getHeight(elem->leftChild);
+		elem->rank = rightHeight-leftHeight;
+	}
+	
 }

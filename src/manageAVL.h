@@ -10,7 +10,7 @@ typedef struct node
 
 
 int getHeight(Node *elem);
-int getRank(Node *elem);
+void getRank(Node *elem);
 Node* rightRotate(Node *elem);
 Node* leftRotate(Node *elem);
 Node* doubleRightRotate(Node *elem);
