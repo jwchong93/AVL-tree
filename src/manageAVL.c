@@ -15,7 +15,6 @@ Node* rightRotate(Node *elem)
 	Node *tempNode=elem->leftChild;
 	elem->leftChild = tempNode->rightChild;
 	tempNode->rightChild = elem;
-	tempNode->rank++;
 	getRank(tempNode);
 	return tempNode;
 }
