@@ -109,9 +109,13 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 		{
 				root->rightChild = AVLAdd(root->rightChild,nodeToAdd);
 		}
-		else
+		else if(root->data>nodeToAdd->data)
 		{
 				root->leftChild = AVLAdd(root->leftChild,nodeToAdd);
+		}
+		else
+		{
+			printf("Throw Error!");
 		}
 	}
 	getBalance(root);
