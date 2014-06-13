@@ -168,8 +168,6 @@ void test_leftRotate_will_work_if_there_are_special_case_for_3_levels()
 		
 }
 
-
-
 /*
 *        (50)                    (100)
 *        /  \                     / \
@@ -623,57 +621,6 @@ void test_getHeight_will_return_the_maximun_height_of_the_AVL_tree_for_three_lev
 	TEST_ASSERT_EQUAL(3,testHeight);
 }
 
-void test_AVLAdd_will_add_the_element_according_to_the_AVL_rule_with_three_element()
-{
-	Node Nroot ={.balance=0,.leftChild = NULL,.rightChild=NULL,.data=10},
-		N15 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 15},
-		N5 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 5};
-		Node *testNode=NULL;
-	
-		testNode = AVLAdd(testNode,&Nroot);
-		
-		TEST_ASSERT_NOT_NULL(testNode);
-		TEST_ASSERT_EQUAL(&Nroot,testNode);
-		AVLAdd(testNode,&N15);
-		TEST_ASSERT_NOT_NULL(testNode->rightChild);
-		TEST_ASSERT_EQUAL(&N15,testNode->rightChild);
-		AVLAdd(testNode,&N5);
-		TEST_ASSERT_NOT_NULL(testNode->leftChild);
-		TEST_ASSERT_EQUAL(&N5,testNode->leftChild);
-}
-
-void test_AVLAdd_will_add_the_element_according_to_the_AVL_rule_with_seven_element()
-{
-		Node Nroot ={.balance=0,.leftChild = NULL,.rightChild=NULL,.data=10},
-		N15 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 15},
-		N5 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 5},
-		N20 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 20},
-		N4 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 4},
-		N25 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 25},
-		N11 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 11};
-		Node *testNode;
-		
-		TEST_ASSERT_NOT_NULL(testNode);
-		TEST_ASSERT_EQUAL(&Nroot,testNode);
-		testNode = AVLAdd(testNode,&N15);
-		TEST_ASSERT_NOT_NULL(testNode->rightChild);
-		TEST_ASSERT_EQUAL(&N15,testNode->rightChild);
-		testNode = AVLAdd(testNode,&N5);
-		TEST_ASSERT_NOT_NULL(testNode->leftChild);
-		TEST_ASSERT_EQUAL(&N5,testNode->leftChild);
-		testNode = AVLAdd(testNode,&N20);
-		TEST_ASSERT_NOT_NULL(testNode->rightChild->rightChild);
-		TEST_ASSERT_EQUAL(&N20,testNode->rightChild->rightChild);
-		testNode = AVLAdd(testNode,&N4);
-		TEST_ASSERT_NOT_NULL(testNode->leftChild->leftChild);
-		TEST_ASSERT_EQUAL(&N4,testNode->leftChild->leftChild);
-		testNode = AVLAdd(testNode,&N25);
-		TEST_ASSERT_NOT_NULL(testNode->rightChild->rightChild->rightChild);
-		TEST_ASSERT_EQUAL(&N25,testNode->rightChild->rightChild->rightChild);
-		testNode = AVLAdd(testNode,&N11);
-		TEST_ASSERT_NOT_NULL(testNode->rightChild->leftChild);
-		TEST_ASSERT_EQUAL(&N11,testNode->rightChild->leftChild);
-}
 
 /*
 *      (1)             (2)
@@ -685,7 +632,7 @@ void test_AVLAdd_will_add_the_element_according_to_the_AVL_rule_with_seven_eleme
 *
 */
 
-void test_AVLBalance_will_will_rotate_the_tree_to_form_a_nearly_balanced_tree()
+void test_AVLBalance_will_will_rotate_the_tree_to_form_a_nearly_balanced_tree_with_three_element()
 {
 	Node N3={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=3},
 	N2={.balance=1 ,.leftChild=NULL ,.rightChild=&N3,.data=2},	
@@ -693,14 +640,264 @@ void test_AVLBalance_will_will_rotate_the_tree_to_form_a_nearly_balanced_tree()
 	Node *testNode;
 	testNode = AVLBalance(&N1);
 	TEST_ASSERT_NOT_NULL(testNode);
-	TEST_ASSERT_EQUAL();
+	TEST_ASSERT_EQUAL(&N2,testNode);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N3,testNode->rightChild);
 }
 
+/*
+*        (50)                    (100)
+*        /  \                     / \
+*      (10) (100)              (50) (150)
+*            / \         =>    /  \    \
+*          (70)(150)         (10) (70) (200) 
+*                \
+*               (200)
+*/
 
+void test_AVLBalance_will_will_rotate_the_tree_to_form_a_nearly_balanced_tree_with_6_elements()
+{
+	Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N150={.balance=1 ,.leftChild=NULL ,.rightChild=&N200,.data=150},	
+		N70={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=70},	
+		N100={.balance=1 ,.leftChild=&N70 ,.rightChild=&N150,.data=100},
+		N10={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=10},
+		N50={.balance=2 ,.leftChild=&N10 ,.rightChild=&N100,.data=50};
+	Node *testNode;
+	
+	testNode = AVLBalance(&N50);
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N100,testNode);
+	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N10,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N70,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL(&N150,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N200,testNode->rightChild->rightChild);
+	
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	TEST_ASSERT_EQUAL(1,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
+	
+}
 
+/*
+*        (50)                        (30)
+*        /  \                      /     \
+*      (10) (100)                (10)   (50)
+*       / \    \       =>         / \   /  \
+*     (5) (30) (150)            (5)(20)(40) (100) 
+*     /    / \                  /       /      \
+*    (1) (20)(40)             (1)     (35)  (150)
+*             /
+*           (35)
+*/
 
+void test_AVLBalance_will_rotate_the_tree_to_form_a_nearly_balanced_tree_with_11_elements()
+{
+	Node N35={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=35},
+		N40={.balance=-1 ,.leftChild=&N35 ,.rightChild=NULL,.data=40},	
+		N20={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=20},	
+		N30={.balance=1 ,.leftChild=&N20 ,.rightChild=&N40,.data=30},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N5={.balance=0 ,.leftChild=&N1 ,.rightChild=NULL,.data=5},		
+		N10={.balance=1 ,.leftChild=&N5 ,.rightChild=&N30,.data=10},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N100={.balance=1 ,.leftChild=NULL ,.rightChild=&N150,.data=100},
+		N50={.balance=-2 ,.leftChild=&N10 ,.rightChild=&N100,.data=50}
+		;
+	Node *testNode;
+	
+	testNode=AVLBalance(&N50);
+	TEST_ASSERT_EQUAL(&N30,testNode);
+	TEST_ASSERT_EQUAL(&N10,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N5,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N20,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N40,testNode->rightChild->leftChild);
+	TEST_ASSERT_EQUAL(&N35,testNode->rightChild->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N100,testNode->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N150,testNode->rightChild->rightChild->rightChild);
+	
+}
+	
+/*
+*        (50)                    (10)
+*        /  \                     / \
+*      (10) (100)              (5) (50)
+*       / \         =>         /    /  \
+*    (5)(30)                 (1) (30) (100) 
+*    /
+*  (1)
+*/
+void test_AVLBalance_will_will_rotate_the_tree_to_form_a_nearly_balanced_tree_with_6_elements_using_left_rotate()
+{
+	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N5={.balance=-1 ,.leftChild=&N1 ,.rightChild=NULL,.data=5},	
+		N30={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=30},	
+		N10={.balance=-1 ,.leftChild=&N5 ,.rightChild=&N30,.data=10},
+		N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N50={.balance=-2 ,.leftChild=&N10 ,.rightChild=&N100,.data=10};
+	Node *testNode;
 
+	testNode=AVLBalance(&N50);
+	TEST_ASSERT_EQUAL(&N10,testNode);
+	TEST_ASSERT_EQUAL(&N5,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N100,testNode->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N30,testNode->rightChild->leftChild);
+	
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(-1,testNode->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->leftChild->balance);
+	
+}
 
+/*
+*      (2)               (1)
+*        \              /   \
+*        (3)    =>    (2)   (3)
+*        /
+*      (1)
+*
+*
+*/
+void test_AVLBalance_will_balance_the_tree_using_doubleLeftRotate()
+{
+	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N3={.balance=-1 ,.leftChild=&N1 ,.rightChild=NULL,.data=3},	
+		N2={.balance=2 ,.leftChild=NULL ,.rightChild=&N3,.data=2};
+	Node *testNode;
+	
+	testNode=AVLBalance(&N2);
+	TEST_ASSERT_EQUAL(&N1,testNode);
+	TEST_ASSERT_EQUAL(&N2,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N3,testNode->rightChild);
+	
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	
+}
+	void test_AVLAdd_will_add_the_element_according_to_the_AVL_rule_with_three_element()
+{
+	Node Nroot ={.balance=0,.leftChild = NULL,.rightChild=NULL,.data=10},
+		N15 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 15},
+		N5 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 5};
+		Node *testNode=NULL;
+	
+		testNode = AVLAdd(testNode,&Nroot);
+		
+		TEST_ASSERT_NOT_NULL(testNode);
+		TEST_ASSERT_EQUAL(&Nroot,testNode);
+		testNode = AVLAdd(testNode,&N15);
+		TEST_ASSERT_NOT_NULL(testNode->rightChild);
+		TEST_ASSERT_EQUAL(&N15,testNode->rightChild);
+		testNode = AVLAdd(testNode,&N5);
+		TEST_ASSERT_NOT_NULL(testNode->leftChild);
+		TEST_ASSERT_EQUAL(&N5,testNode->leftChild);
+}
+
+void test_AVLAdd_will_add_in_the_new_element_and_balance_the_tree_before_the_function_end() //Contain several tests,in this test function.
+{
+
+	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},	
+		N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+		N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N120={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=120}
+		;
+	Node *testNode=NULL;	
+	
+	testNode=AVLAdd(testNode,&N1);
+	
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(testNode,&N1);
+	TEST_ASSERT_NULL(testNode->rightChild);
+	TEST_ASSERT_NULL(testNode->leftChild);
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	
+	testNode=AVLAdd(testNode,&N50);
+	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
+	TEST_ASSERT_NULL(testNode->leftChild);
+	TEST_ASSERT_EQUAL(1,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	
+	testNode=AVLAdd(testNode,&N100);
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	
+	testNode=AVLAdd(testNode,&N75);
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
+	
+	TEST_ASSERT_EQUAL(1,testNode->balance);
+	TEST_ASSERT_EQUAL(-1,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	
+	testNode=AVLAdd(testNode,&N150);
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
+	TEST_ASSERT_EQUAL(&N150,testNode->rightChild->rightChild);
+	
+	TEST_ASSERT_EQUAL(1,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	
+	testNode=AVLAdd(testNode,&N200);
+	TEST_ASSERT_EQUAL(&N100,testNode);
+	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N75,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL(&N150,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N200,testNode->rightChild->rightChild);
+	
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(1,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
+	
+	testNode=AVLAdd(testNode,&N120);
+	TEST_ASSERT_EQUAL(&N100,testNode);
+	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
+	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL(&N75,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL(&N150,testNode->rightChild);
+	TEST_ASSERT_EQUAL(&N200,testNode->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N120,testNode->rightChild->leftChild);
+	
+	TEST_ASSERT_EQUAL(0,testNode->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->rightChild->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
+	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
+	
+}
 
 
 

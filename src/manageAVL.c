@@ -81,6 +81,22 @@ void getBalance(Node *elem)
 	
 }
 
+Node * AVLBalance(Node *root)
+{
+	if(root->balance==2&&root->rightChild->balance==1)
+	root = leftRotate(root);
+	else if(root->balance==-2&&root->leftChild->balance==-1)
+	root = rightRotate(root);
+	else if(root->balance==2&&root->rightChild->balance==-1)
+	root = doubleLeftRotate(root);
+	else if(root->balance==-2&&root->leftChild->balance==1)
+	root = doubleRightRotate(root);
+	
+	
+	getBalance(root);
+	return root;
+}
+
 Node *AVLAdd(Node *root,Node *nodeToAdd)
 {
 	if(root==NULL)
@@ -99,14 +115,9 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 		}
 	}
 	getBalance(root);
+	root = AVLBalance(root);
 	return root;
 }
-
-Node * AVLBalance(Node *root)
-{
-	
-}
-
 
 
 
