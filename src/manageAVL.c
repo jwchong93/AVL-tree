@@ -1,6 +1,6 @@
 #include "manageAVL.h"
 #include <stdio.h>
-
+#include "CException.h"
 Node* leftRotate(Node *elem)
 {
 	Node *tempNode=elem->rightChild;
@@ -115,7 +115,7 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 		}
 		else
 		{
-			printf("Throw Error!");
+			Throw(INVALID_INPUT);
 		}
 	}
 	getBalance(root);

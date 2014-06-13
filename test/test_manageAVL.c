@@ -1,6 +1,6 @@
 #include "unity.h"
 #include "manageAVL.h"
-
+#include "CException.h"
 void setUp(void)
 {
 }
@@ -1796,7 +1796,27 @@ void test_AVLAdd_will_balance_for_twelve_element()
 	TEST_ASSERT_EQUAL(&N177,testNode->rightChild->leftChild->rightChild);
 }
 
-
+void test_AVLAdd_will_throw_an_error_when_same_input_detected()
+{
+	Node N250A={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+		N250B={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250};
+	Error e;
+	Node *testNode=NULL;
+	
+	testNode=AVLAdd(testNode,&N250A);
+	
+	Try
+	{
+	testNode=AVLAdd(testNode,&N250B);
+	printf("Hahaha,You failed your program.");
+	}Catch(e)
+	{
+		TEST_ASSERT_EQUAL(INVALID_INPUT,e);
+	}
+	
+	
+	
+}
 
 
 

@@ -7,7 +7,7 @@ typedef struct node
 	struct node*rightChild;
 	int data;
 }Node;
-
+typedef enum error {INVALID_INPUT}Error;
 
 int getHeight(Node *elem);
 void getBalance(Node *elem);
