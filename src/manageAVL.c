@@ -6,7 +6,7 @@ Node* leftRotate(Node *elem)
 	Node *tempNode=elem->rightChild;
 	elem->rightChild = tempNode->leftChild;
 	tempNode->leftChild = elem;
-	getRank(tempNode);
+	getBalance(tempNode);
 	return tempNode;
 }
 
@@ -15,7 +15,7 @@ Node* rightRotate(Node *elem)
 	Node *tempNode=elem->leftChild;
 	elem->leftChild = tempNode->rightChild;
 	tempNode->rightChild = elem;
-	getRank(tempNode);
+	getBalance(tempNode);
 	return tempNode;
 }
 
@@ -28,7 +28,7 @@ Node* doubleRightRotate(Node *elem)
 	elem->leftChild = tempNode;
 	tempNode->leftChild->rightChild=tempNode2;
 	tempNode = rightRotate(elem);
-	getRank(tempNode);
+	getBalance(tempNode);
 	return tempNode;
 }
 
@@ -41,22 +41,8 @@ Node* doubleLeftRotate(Node *elem)
 	elem->rightChild = tempNode;
 	tempNode->rightChild->leftChild=tempNode2;
 	tempNode = leftRotate(elem);
-	getRank(tempNode);
+	getBalance(tempNode);
 	return tempNode;
-	/*
-	Node *tempNode=elem->rightChild->leftChild;
-	tempNode->rightChild = elem->rightChild;
-	elem->rightChild = tempNode;
-	tempNode->rank++;
-	tempNode->rightChild->rank++;
-	tempNode->rightChild->leftChild=NULL;
-	tempNode = leftRotate(elem);
-	if(tempNode->rank!=0)
-	{
-		tempNode->rank++;
-	}
-	return tempNode;
-	*/
 }
 
 int getHeight(Node *elem)
@@ -81,16 +67,73 @@ int getHeight(Node *elem)
 	}
 }
 
-void getRank(Node *elem)
+void getBalance(Node *elem)
 {
 	int leftHeight=0,rightHeight=0;
 	if(elem!=NULL)
 	{
-		getRank(elem->leftChild);
-		getRank(elem->rightChild);
+		getBalance(elem->leftChild);
+		getBalance(elem->rightChild);
 		rightHeight = getHeight(elem->rightChild);
 		leftHeight = getHeight(elem->leftChild);
-		elem->rank = rightHeight-leftHeight;
+		elem->balance = rightHeight-leftHeight;
 	}
 	
 }
+
+Node *AVLAdd(Node *root,Node *nodeToAdd)
+{
+	if(root==NULL)
+	{
+		root = nodeToAdd;
+	}
+	else
+	{
+		if(root->data<nodeToAdd->data)
+		{
+				root->rightChild = AVLAdd(root->rightChild,nodeToAdd);
+		}
+		else
+		{
+				root->leftChild = AVLAdd(root->leftChild,nodeToAdd);
+		}
+	}
+	getBalance(root);
+	return root;
+}
+
+Node * AVLBalance(Node *root)
+{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
