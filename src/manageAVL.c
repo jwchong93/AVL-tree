@@ -282,7 +282,12 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 	else if(nodeToRemove==(*root)->rightChild)
 	{
 		tempNode = (*root)->rightChild;
-		if((*root)->rightChild->leftChild!=NULL)
+		/*if((*root)->rightChild->leftChild->rightChild==NULL)
+		{
+			(*root)->rightChild=(*root)->rightChild->leftChild;
+			(*root)->rightChild->rightChild=tempNode->rightChild;
+		}
+		else */if((*root)->rightChild->leftChild!=NULL)
 		{
 			(*root)->rightChild=getReplacer(&((*root)->rightChild->leftChild));
 			(*root)->rightChild->rightChild=tempNode->rightChild;
@@ -322,9 +327,7 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 		}
 		
 	}
-	// printf("What is this value?%d\n",(*root)->balance);
 	(*root)=AVLBalance(*root);
-	// printf("What is this value?%d\n",(*root)->balance);
 	if(checkNode!=NULL)
 	return checkNode;
 	else
