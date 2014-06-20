@@ -3,19 +3,50 @@
 #include "CException.h"
 Node* leftRotate(Node *elem)
 {
+	if(elem->balance==2&&elem->rightChild->balance==1)
+	{
+		elem->balance=0;
+		elem->rightChild->balance=0;
+	}
+	else if(elem->balance==1&&elem->rightChild->balance==-1)
+	{
+		elem->balance-=1;
+		elem->rightChild->balance-=1;
+	}
+		else if(elem->balance==1&&elem->rightChild->balance==1)
+	{
+		elem->balance-=2;
+		elem->rightChild->balance-=2;
+	}
 	Node *tempNode=elem->rightChild;
 	elem->rightChild = tempNode->leftChild;
 	tempNode->leftChild = elem;
-	getBalance(tempNode);
+	//getBalance(tempNode);
 	return tempNode;
 }
 
 Node* rightRotate(Node *elem)
 {
+
+	if(elem->balance==-2&&elem->leftChild->balance==-1)
+	{
+		elem->balance=0;
+		elem->leftChild->balance=0;
+	}
+	else if(elem->balance==-1&&elem->leftChild->balance==1)
+	{
+		elem->balance+=1;
+		elem->leftChild->balance+=1;
+	}
+	else if(elem->balance==-1&&elem->leftChild->balance==-1)
+	{
+		elem->balance+=2;
+		elem->leftChild->balance+=2;
+	}
 	Node *tempNode=elem->leftChild;
 	elem->leftChild = tempNode->rightChild;
 	tempNode->rightChild = elem;
-	getBalance(tempNode);
+	//getBalance(tempNode);
 	return tempNode;
 }
 
@@ -23,12 +54,21 @@ Node* doubleRightRotate(Node *elem)
 {
 	Node *tempNode=elem->leftChild->rightChild;
 	Node *tempNode2= tempNode->leftChild;
-
+	if(elem->leftChild->balance==1&&elem->leftChild->rightChild->balance==0)
+	{
+		elem->leftChild->balance-=1;
+		elem->leftChild->rightChild->balance-=1;
+	}
+	if(elem->leftChild->balance==1&&elem->leftChild->rightChild->balance==1)
+	{
+		elem->leftChild->balance-=2;
+		elem->leftChild->rightChild->balance-=2;
+	}
 	tempNode->leftChild = elem->leftChild;
 	elem->leftChild = tempNode;
 	tempNode->leftChild->rightChild=tempNode2;
 	tempNode = rightRotate(elem);
-	getBalance(tempNode);
+	//getBalance(tempNode);
 	return tempNode;
 }
 
@@ -36,12 +76,16 @@ Node* doubleLeftRotate(Node *elem)
 {
 	Node *tempNode=elem->rightChild->leftChild;
 	Node *tempNode2= tempNode->rightChild;
-
+	if(elem->leftChild->balance==-1&&elem->leftChild->rightChild->balance==0)
+	{
+		elem->leftChild->balance+=1;
+		elem->leftChild->rightChild->balance+=1;
+	}
 	tempNode->rightChild = elem->rightChild;
 	elem->rightChild = tempNode;
 	tempNode->rightChild->leftChild=tempNode2;
 	tempNode = leftRotate(elem);
-	getBalance(tempNode);
+	//getBalance(tempNode);
 	return tempNode;
 }
 
@@ -93,7 +137,7 @@ Node * AVLBalance(Node *root)
 	root = doubleRightRotate(root);
 	
 	
-	getBalance(root);
+	//getBalance(root);
 	return root;
 }
 
@@ -118,7 +162,7 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 			Throw(INVALID_INPUT);
 		}
 	}
-	getBalance(root);
+	//getBalance(root);
 	root = AVLBalance(root);
 	return root;
 }
