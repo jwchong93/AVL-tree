@@ -17,5 +17,5 @@ Node* doubleRightRotate(Node *elem);
 Node* doubleLeftRotate(Node *elem);
 Node * AVLBalance(Node *root);
 Node * AVLAdd(Node *root,Node *nodeToAdd);
-void AVLRemove();
+void AVLRemove(Node *root,Node *nodeToRemove);
 #endif // manageAVL_H
