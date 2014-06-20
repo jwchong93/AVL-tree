@@ -244,7 +244,29 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 }
 Node * getReplacer(Node ** root)
 {
-	
+	Node *tempNode=NULL;
+	if((*root)->rightChild==NULL)
+	{
+		if((*root)->leftChild!=NULL)
+		tempNode = (*root)->leftChild;
+		(*root)->balance++;
+		return tempNode;
+	}
+	if((*root)->rightChild->rightChild==NULL)
+	{
+		tempNode=(*root)->rightChild;
+		if((*root)->rightChild->leftChild!=NULL)
+		(*root)->rightChild=(*root)->rightChild->leftChild;
+	}
+	else
+	{
+		tempNode=getReplacer(&((*root)->rightChild));
+	}
+	if(tempNode!=NULL)
+	{
+		(*root)->balance--;
+	}
+	return tempNode;
 }
 Node* AVLRemove(Node **root,Node *nodeToRemove)
 {
@@ -260,7 +282,16 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 	else if(nodeToRemove==(*root)->rightChild)
 	{
 		tempNode = (*root)->rightChild;
+		if((*root)->rightChild->leftChild!=NULL)
+		{
+			(*root)->rightChild=getReplacer(&((*root)->rightChild->leftChild));
+			(*root)->rightChild->rightChild=tempNode->rightChild;
+		}
+		else if((*root)->rightChild->rightChild!=NULL)
+		(*root)->rightChild=(*root)->rightChild->rightChild;
+		else
 		(*root)->rightChild=NULL;
+		
 		(*root)->balance--;
 	}
 	else if((*root)->leftChild!=NULL||(*root)->rightChild!=NULL)
