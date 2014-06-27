@@ -89,7 +89,7 @@ void test_getReplacer_will_replace_the_root_with_leftChild_and_return_root_while
 	Node *testNode=NULL;
 	testNode=getReplacer(&testRoot);
 	TEST_ASSERT_EQUAL(&N180,testNode);
-        TEST_ASSERT_EQUAL(&N150,testRoot);
+      TEST_ASSERT_EQUAL(&N150,testRoot);
 	TEST_ASSERT_EQUAL(0,testRoot->balance);
 }
 

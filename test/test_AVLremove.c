@@ -948,7 +948,7 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	printf("What is the data in here ? ->%d",testNode->data);
+	//printf("What is the data in here ? ->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N90,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,-1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,1,testNode->leftChild);
@@ -958,6 +958,545 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	
 	
  }
+ 
+ /**
+ *        50                 50
+ *      /   \               /  \
+ *     25   150    =>     25   150
+ *    /                  /
+ *   1                  1
+ *
+ * Attempt to remove 200, which cannot be found in the tree.
+ */
+ 
+ void test_AVLRemove_will_not_remove_if_the_node_is_not_found()
+ {
+	Node N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_NULL(testNode2);
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N150,-1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+	
+ }
+ 
+ /**
+ *      50             50
+ *     /  \     =>    /
+ *   25   150       25
+ *
+ * where 150 is being removed
+ */
+
+void test_AVLRemove_will_remove_the_right_node()
+{
+		Node N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	
+	testNode2=AVLRemove(&testNode,&N150);
+	TEST_ASSERT_EQUAL(&N150,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,NULL,-1,testNode);
+}
+/**
+ *        50                 50            25
+ *      /   \               /            /   \
+ *     25   150    =>     25       =>   1    50
+ *    /                  /
+ *   1                  1
+ *
+ * where 150 is being removed
+ */
+ 
+ void test_AVLRemove_will_remove_the_rightChild_and_perform_a_rightRotate()
+ {
+	Node N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	
+	testNode2=AVLRemove(&testNode,&N150);
+	TEST_ASSERT_EQUAL(&N150,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N25,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,0,testNode);
+ }
+
+ /**
+ *        50                 50
+ *      /   \               /  \
+ *     25   150    =>     25   200
+ *    /       \          /
+ *   1       200        1
+ *
+ * where 150 is being removed
+ */
+ 
+ void test_AVLRemove_remove_the_node_in_third_stage()
+ {
+	Node N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N200);
+	
+	testNode2=AVLRemove(&testNode,&N150);
+	TEST_ASSERT_EQUAL(&N150,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,-1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+ }
+ 
+ /**
+ *        100                  100                50
+ *      /    \               /    \             /    \
+ *     25    150           25     150         25     100
+ *    /  \     \    =>    /  \          =>   /  \    /  \
+ *   1   50    200       1   50             1   40  75  150
+ *      /  \                /  \
+ *     40  75              40  75
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_balance_the_tree_using_double_right_rotate()
+ {
+	Node N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+		N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N100);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N40);
+	testNode=AVLAdd(testNode,&N75);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N100,0,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N40,0,testNode->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N75,&N150,0,testNode->rightChild);
+	
+ }
+	
+	/**
+ *        100                  100                50
+ *      /    \               /    \             /    \
+ *     25    150           25     150         25     100
+ *    /  \     \    =>    /  \          =>   /       /  \
+ *   1   50    200       1   50             1      75  150
+ *         \                   \
+ *         75                  75
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_perform_double_right_rotate_if_the_left_subtree_is_different_format()
+ {
+		Node N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+		N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N100);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N75);
+	
+		testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N100,0,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N75,&N150,0,testNode->rightChild);
+ }
+ 
+ /**
+ *        100                  100                50
+ *      /    \               /    \             /    \
+ *     25    150           25     150         25     100
+ *    /  \     \    =>    /  \          =>   /  \       \
+ *   1   50    200       1   50             1   40      150
+ *      /                   /
+ *     40                  40
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_perform_double_right_rotate_if_theleft_subtree_have_a_leftChild_at_the_deepest_node()
+ {
+		Node N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+	
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N100);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N40);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N100,0,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N40,0,testNode->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N150,1,testNode->rightChild);
+ }
+ 
+ /**
+ *        100                  100                40
+ *      /    \               /    \             /    \
+ *     40    150           40     150         25     100
+ *    /  \     \    =>    /  \          =>   /       /  \
+ *   25  75   200        25  75             1      75   150
+ *  /    /              /    /                    /
+ * 1    50             1    50                  50
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_remove_the_specific_node_and_perform_a_right_rotate()
+ {
+	Node N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+		N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200}
+		;
+		
+			Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+		
+	testNode=AVLAdd(testNode,&N100);
+	testNode=AVLAdd(testNode,&N40);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N75);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N1);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N40,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N100,1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N75,&N150,-1,testNode->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N50,NULL,-1,testNode->rightChild->leftChild);
+	
+	
+ }
+ 
+ 
+/**
+ *      50             50
+ *     /  \     =>    /  \
+ *   25   200       25   150
+ *        /
+ *      150
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_replace_200with_150()
+ {
+		Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25}
+
+		;
+					Node *testNode=NULL;
+	Node *testNode2=NULL;
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N150,0,testNode);
+
+ }
+ /**
+ *      50             50
+ *     /  \     =>    /  \
+ *   25   200       25   150
+ *        / \              \
+ *      150 220            220
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_remove_the_target_node()
+ {
+	Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N220={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=220}
+
+		;
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N220);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N150,1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N220,1,testNode->rightChild);
+
+ }
+ 
+ 
+/**
+ *      50               50
+ *     /  \             /  \
+ *   25   200    =>   25   175
+ *  /     / \        /    /  \
+ * 1    150 250     1   150  250
+ *        \
+ *        175
+ *
+ * where 200 is being removed
+ */
+ 
+ void test_AVLRemove_will_remove_200_and_replace_wtih_175()
+ {
+		Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+		N175={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=175}
+		;
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N250);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N175);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N175,0,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N250,0,testNode->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+	
+ }
+	
+	
+	/**
+ *      50               50
+ *     /  \             /  \
+ *   25   200    =>   25   175
+ *  /     / \        /    /  \
+ * 1    150 250     1   150  250
+ *      / \             /
+ *    120 175         120
+ * 
+ * where 200 is being removed
+ */
+ 
+ 
+ void xtest_AVLRemove_will_remove_200_and_replace_it_using_175()
+ {
+		Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+		N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+		N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+		N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+		N120={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=120},
+		N175={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=175}
+
+		;
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+	testNode=AVLAdd(testNode,&N50);
+	testNode=AVLAdd(testNode,&N200);
+	testNode=AVLAdd(testNode,&N25);
+	testNode=AVLAdd(testNode,&N1);
+	testNode=AVLAdd(testNode,&N250);
+	testNode=AVLAdd(testNode,&N150);
+	testNode=AVLAdd(testNode,&N175);
+	testNode=AVLAdd(testNode,&N120);
+	
+	testNode2=AVLRemove(&testNode,&N200);
+	TEST_ASSERT_EQUAL(&N200,testNode2);
+	
+	TEST_ASSERT_EQUAL(&N50,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N175,1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N250,-1,testNode->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N120,NULL,-1,testNode->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,NULL,-1,testNode->leftChild);
+	
+	
+	
+ }
+ 
+ /**
+ *              175                                   175
+ *          /          \                         /          \
+ *        100          400                     100          350
+ *       /   \       /     \                  /   \       /     \
+ *     50    150   250     500       =>     50    150   250     500
+ *    / \    /   /    \     / \            / \    /   /    \     / \
+ *  25  65 120 200    300 450 550        25  65 120 200    300 450 550
+ *   \          \     / \      \          \          \     / \      \
+ *   40         220 270 350    600        40         220 270 330    600
+ *                      /
+ *                    330
+ *
+ * where 400 is being removed
+ */
+ 
+ void xtest_AVLRemove_will_remove_400_from_a_very_large_tree()
+ {
+	Node N600={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=600},
+	N550={.balance=0 ,.leftChild=NULL ,.rightChild=&N600,.data=550},
+	N450={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=450},
+	N500={.balance=0 ,.leftChild=&N450 ,.rightChild=&N550,.data=500},
+	N330={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=330},
+	N350={.balance=0 ,.leftChild=&N330 ,.rightChild=NULL,.data=350},
+	N270={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=270},
+	N300={.balance=0 ,.leftChild=&N270 ,.rightChild=&N350,.data=300},
+	N220={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=220},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=&N200,.data=200},
+	N250={.balance=0 ,.leftChild=&N200 ,.rightChild=&N300,.data=250},
+	N120={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=120},
+	N150={.balance=0 ,.leftChild=&N120 ,.rightChild=NULL,.data=150},
+	N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+	N65={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=65},
+	N25={.balance=0 ,.leftChild=NULL ,.rightChild=&N40,.data=25},
+	N50={.balance=0 ,.leftChild=&N25 ,.rightChild=&N65,.data=50},
+	N400={.balance=0 ,.leftChild=&N250 ,.rightChild=&N500,.data=400},
+	N100={.balance=0 ,.leftChild=&N50 ,.rightChild=&N150,.data=100},
+	N175={.balance=0 ,.leftChild=&N100 ,.rightChild=&N400,.data=175}
+	;
+	Node *testNode=NULL;
+	Node *testNode2=NULL;
+	
+	testNode=AVLAdd(testNode,&N175);
+	
+	TEST_ASSERT_EQUAL(&N175,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N100,&N350,0,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N250,&N500,-1,testNode->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N150,-1,testNode->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N120,NULL,-1,testNode->leftChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N65,-1,testNode->leftChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N40,1,testNode->leftChild->leftChild->leftChild);
+
+ }
+ 
 // /**
         // 200          200         180
        // /  \   =>     /     =>    / \

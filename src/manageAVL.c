@@ -275,18 +275,7 @@ Node * getReplacer(Node ** root)
 	else
 	{
 		tempNode=getReplacer(&((*root)->rightChild));
-		if((*root)->rightChild==tempNode)
-		{
-			if((*root)->leftChild!=NULL)
-			{
-				(*root)->balance--;
-				tempNode->balance=1;
-			}
-			else
-				tempNode->balance=0;
-			
-			(*root)->rightChild=NULL;
-		}
+		
 	}
 	if(tempNode!=NULL)
 	{
@@ -306,21 +295,37 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 		tempNode=(*root);
 		if((*root)->leftChild!=NULL)
 		{
-			temp=(*root)->leftChild->balance;
 			(*root)=getReplacer(&((*root)->leftChild));
 			(*root)->leftChild=tempNode->leftChild;
 			(*root)->rightChild=tempNode->rightChild;
 			(*root)->balance=tempNode->balance+1;
 			
-			// if((*root)->leftChild!=NULL)
-			// {
-				// if((*root)->leftChild->balance==0)
-				// {
-					// if(temp!=0)
-					// (*root)->balance=tempNode->balance-1;
+			if((*root)->leftChild!=NULL)
+			{
+				if((*root)->leftChild->balance==0)
+				{
+					if(temp!=0)
+					(*root)->balance=tempNode->balance+1;
 					
-				// }
-			// }
+				}
+			}
+		}
+		else if((*root)->rightChild!=NULL)
+		{
+			(*root)=getReplacer(&((*root)->rightChild));
+			(*root)->leftChild=tempNode->leftChild;
+			(*root)->rightChild=tempNode->rightChild;
+			(*root)->balance=tempNode->balance-1;
+			
+			if((*root)->rightChild!=NULL)
+			{
+				if((*root)->rightChild->balance==0)
+				{
+					if(temp!=0)
+					(*root)->balance=tempNode->balance+1;
+					
+				}
+			}
 		}
 		else
 		{
