@@ -18,6 +18,7 @@ void tearDown(void)
 *
 *
 */
+
 void test_leftRotate_will_work_as_the_figure_show_above()
 {
 	Node N3={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=3},
@@ -1105,7 +1106,7 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
 }
 
 /*
-		100
+	     100
 	    /  \
 	  50  150
 	 / \    \
@@ -1203,13 +1204,13 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 }
 
 /*
-		    120
+	        120
 	    /        \
 	  100        150
 	 /   \      /   \
 	50   110  130  200
-    / \   /    \     \ 
-   1  75 105   140   250     
+       / \   /    \     \ 
+       1  75 105   140   250     
                 
 */
 void test_AVLAdd_will_add_eleven_element_into_the_tree()
@@ -1321,9 +1322,8 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
-	
+
 	testNode=AVLAdd(testNode,&N130);
-	
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);

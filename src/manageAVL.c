@@ -106,15 +106,15 @@ Node* doubleLeftRotate(Node *elem)
 		elem->rightChild->balance+=1;
 		elem->rightChild->leftChild->balance+=1;
 	}
-	else if(elem->rightChild->balance==1&&elem->rightChild->leftChild->balance==1)
-	{
-		elem->rightChild->balance+=2;
-		elem->rightChild->leftChild->balance+=2;
-	}
 	else if(elem->rightChild->balance==-1&&elem->rightChild->leftChild->balance==1)
 	{
 		elem->rightChild->balance+=1;
 		elem->rightChild->leftChild->balance+=1;
+	}
+	else if(elem->rightChild->balance==-1&&elem->rightChild->leftChild->balance==-1)
+	{
+		elem->rightChild->balance+=2;
+		elem->rightChild->leftChild->balance+=2;
 	}
 	tempNode->rightChild = elem->rightChild;
 	elem->rightChild = tempNode;
@@ -163,14 +163,21 @@ void getBalance(Node *elem)
 Node * AVLBalance(Node *root)
 {
 	if(root->balance==2&&(root->rightChild->balance==1||root->rightChild->balance==0))
-	root = leftRotate(root);
+	{
+		root = leftRotate(root);
+	}
 	else if(root->balance==-2&&(root->leftChild->balance==-1||root->leftChild->balance==0))
-	root = rightRotate(root);
+	{
+		root = rightRotate(root);
+	}
 	else if(root->balance==2&&root->rightChild->balance==-1)
-	root = doubleLeftRotate(root);
+	{
+		root = doubleLeftRotate(root);
+	}
 	else if(root->balance==-2&&root->leftChild->balance==1)
-	root = doubleRightRotate(root);
-	
+	{
+		root = doubleRightRotate(root);
+	}
 	
 	//getBalance(root);
 	return root;
@@ -202,11 +209,17 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 							root->balance++;
 						}
 					}
+					else
+					{
+							if(root->rightChild->balance==0)
+					        root->balance++;
+					}
 				}
 				else
 				{
 					root->rightChild = AVLAdd(root->rightChild,nodeToAdd);
 					root->balance++;
+					
 				}
 		}
 		else if(root->data>nodeToAdd->data)
@@ -247,91 +260,270 @@ Node * getReplacer(Node ** root)
 	Node *tempNode=NULL;
 	if((*root)->rightChild==NULL)
 	{
+	        tempNode = (*root);
 		if((*root)->leftChild!=NULL)
-		tempNode = (*root)->leftChild;
-		(*root)->balance++;
+		{
+		        (*root)=(*root)->leftChild;
+		        (*root)->balance=tempNode->balance+1;
+		}
+		else
+		{
+			(*root)=NULL;
+		}
 		return tempNode;
-	}
-	if((*root)->rightChild->rightChild==NULL)
-	{
-		tempNode=(*root)->rightChild;
-		if((*root)->rightChild->leftChild!=NULL)
-		(*root)->rightChild=(*root)->rightChild->leftChild;
 	}
 	else
 	{
 		tempNode=getReplacer(&((*root)->rightChild));
+		if((*root)->rightChild==tempNode)
+		{
+			if((*root)->leftChild!=NULL)
+			{
+				(*root)->balance--;
+				tempNode->balance=1;
+			}
+			else
+				tempNode->balance=0;
+			
+			(*root)->rightChild=NULL;
+		}
 	}
 	if(tempNode!=NULL)
 	{
 		(*root)->balance--;
 	}
 	return tempNode;
+	
 }
 Node* AVLRemove(Node **root,Node *nodeToRemove)
 {
 	Node *tempNode=NULL;
+	Node *tempNode2=NULL;
 	Node *checkNode=NULL;
-	if(nodeToRemove==(*root)->leftChild)
+	int temp;
+	if(nodeToRemove==(*root))
 	{
-		tempNode= (*root)->leftChild;
-		(*root)->leftChild=NULL;
-		(*root)->balance++;
-		
-	}
-	else if(nodeToRemove==(*root)->rightChild)
-	{
-		tempNode = (*root)->rightChild;
-		/*if((*root)->rightChild->leftChild->rightChild==NULL)
+		tempNode=(*root);
+		if((*root)->leftChild!=NULL)
 		{
-			(*root)->rightChild=(*root)->rightChild->leftChild;
-			(*root)->rightChild->rightChild=tempNode->rightChild;
+			temp=(*root)->leftChild->balance;
+			(*root)=getReplacer(&((*root)->leftChild));
+			(*root)->leftChild=tempNode->leftChild;
+			(*root)->rightChild=tempNode->rightChild;
+			if((*root)->leftChild!=NULL)
+			{
+				if((*root)->leftChild->balance==0)
+				{
+					if(temp!=0)
+					(*root)->balance=tempNode->balance+1;
+				}
+				else
+				{
+					(*root)->balance=tempNode->balance;
+				}
+			}
+			else
+			{
+					(*root)->balance=tempNode->balance+1;		
+			}
 		}
-		else */if((*root)->rightChild->leftChild!=NULL)
-		{
-			(*root)->rightChild=getReplacer(&((*root)->rightChild->leftChild));
-			(*root)->rightChild->rightChild=tempNode->rightChild;
-		}
-		else if((*root)->rightChild->rightChild!=NULL)
-		(*root)->rightChild=(*root)->rightChild->rightChild;
 		else
-		(*root)->rightChild=NULL;
+		{
+			(*root)=NULL;
+		}
 		
-		(*root)->balance--;
 	}
-	else if((*root)->leftChild!=NULL||(*root)->rightChild!=NULL)
+	else if ((*root)->rightChild!=NULL&&nodeToRemove->data>(*root)->data)
 	{
-		if((*root)->rightChild!=NULL)
-		{
-			checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
-			if(checkNode == NULL && (*root)->leftChild!=NULL)
-			{
-				checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
-			}
-			else
-			{
-				(*root)->balance--;
-			}
-		}
-		else if((*root)->leftChild!=NULL)
-		{
-			checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
-			if(checkNode == NULL && (*root)->rightChild!=NULL)
-			{
-				checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
-			}
-			else
-			{
-				(*root)->balance++;
-			}
-		}
-		
+		checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
+		if(checkNode!=NULL)
+				{
+					if((*root)->rightChild!=NULL)
+					 {
+						if((*root)->rightChild->balance==-1||(*root)->rightChild->balance==1)
+						{
+						}
+						else
+						{
+							(*root)->balance--;
+						}
+					}
+					else
+					{
+						(*root)->balance--;
+					}
+				}
+				
 	}
+	else if ((*root)->leftChild!=NULL&&nodeToRemove->data<(*root)->data)
+	{
+		checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
+		if(checkNode!=NULL)
+				{
+					if((*root)->leftChild!=NULL)
+					{
+						if((*root)->leftChild->balance==-1||(*root)->leftChild->balance==1)
+						{
+						}
+						else
+						{
+							(*root)->balance++;
+						}
+					}
+					else
+					{
+						(*root)->balance++;
+					}
+				}
+				
+	}
+	// else if(nodeToRemove==(*root)->leftChild)
+	// {
+		// tempNode= (*root)->leftChild;
+		// (*root)->leftChild=NULL;
+		// (*root)->balance++;
+		
+	// }
+	// else if(nodeToRemove==(*root)->rightChild)
+	// {
+		// tempNode = (*root)->rightChild;
+		// temp = (*root)->rightChild->balance;
+		// if((*root)->rightChild->leftChild!=NULL)
+		// {
+			// (*root)->rightChild=getReplacer(&((*root)->rightChild->leftChild));
+			// (*root)->rightChild->rightChild=tempNode->rightChild;
+			// (*root)->rightChild->leftChild=tempNode->leftChild;
+			// (*root)->rightChild->balance =tempNode->balance+1;
+		// }
+		// else if((*root)->rightChild->rightChild!=NULL)
+		// (*root)->rightChild=(*root)->rightChild->rightChild;
+		// else
+		// (*root)->rightChild=NULL;
+		
+		// if((*root)->rightChild!=NULL)
+		// {
+			// if((*root)->rightChild->balance==1)
+			// {
+			// }
+			// else
+			// {
+				// (*root)->balance--;
+			// }
+		// }
+		// else 
+		// {
+			// (*root)->balance--;
+		// }	
+	// }
+	// else if((*root)->leftChild!=NULL||(*root)->rightChild!=NULL)
+	// {
+		// if((*root)->rightChild!=NULL)
+		// {
+			// checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
+			// if(checkNode == NULL)
+			// {
+				// if((*root)->leftChild!=NULL)
+				// checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
+				
+				//#####################################################################################
+				// if(checkNode!=NULL)
+				// {
+					// if((*root)->leftChild!=NULL)
+					// {
+						// if((*root)->leftChild->balance==-1||(*root)->leftChild->balance==1)
+						// {
+						// }
+						// else
+						// {
+							// (*root)->balance++;
+						// }
+					// }
+					// else
+					// {
+						// (*root)->balance++;
+					// }
+				// }
+				//#####################################################################################
+			// }
+			// else
+			// {
+				 // if((*root)->rightChild!=NULL)
+				 // {
+					// if((*root)->rightChild->balance==-1||(*root)->rightChild->balance==1)
+					// {
+					// }
+					// else
+					// {
+						// (*root)->balance--;
+					// }
+				// }
+				// else
+				// {
+					// (*root)->balance--;
+				// }
+					//return checkNode;
+			// }
+		// }
+		// else if((*root)->leftChild!=NULL)
+		// {
+			// checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
+			// if(checkNode == NULL)
+			// {
+				// if((*root)->rightChild!=NULL)
+				// checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
+				//#####################################################################################
+				// if(checkNode!=NULL)
+				// {
+					// if((*root)->rightChild!=NULL)
+					 // {
+						// if((*root)->rightChild->balance==-1||(*root)->rightChild->balance==1)
+						// {
+						// }
+						// else
+						// {
+							// (*root)->balance--;
+						// }
+					// }
+					// else
+					// {
+						// (*root)->balance--;
+					// }
+				// }
+				//#####################################################################################
+			// }
+			// else
+			// {
+				// if((*root)->leftChild!=NULL)
+				// {
+					// if((*root)->leftChild->balance==-1||(*root)->leftChild->balance==1)
+					// {
+					// }
+					// else
+					// {
+						// (*root)->balance++;
+					// }
+				// }
+				// else
+				// {
+					// (*root)->balance++;
+				// }
+					//return checkNode;
+			// }
+
+		// }
+		
+	// }
+	
+	if((*root)!=NULL)
 	(*root)=AVLBalance(*root);
 	if(checkNode!=NULL)
-	return checkNode;
+	{
+		return checkNode;
+	}
 	else
-	return tempNode;
+	{
+		return tempNode;
+	}
 }
 
 

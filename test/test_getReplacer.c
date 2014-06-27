@@ -66,7 +66,7 @@ void test_getReplacer_will_move_to_the_right_until_the_last_location()
 	TEST_ASSERT_EQUAL(0,testRoot->rightChild->rightChild->rightChild->rightChild->rightChild->rightChild->balance);
 }
 
-void test_getReplacer_will_return_NULL_when_there_are_no_rightChild_or_leftChild()
+void test_getReplacer_will_return_the_root_when_there_are_no_rightChild_or_leftChild()
 {
 	Node
 	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
@@ -75,20 +75,21 @@ void test_getReplacer_will_return_NULL_when_there_are_no_rightChild_or_leftChild
 	Node *testRoot=&N150;
 	Node *testNode=NULL;
 	testNode=getReplacer(&testRoot);
-	TEST_ASSERT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N150,testNode);
 }
 
-void test_getReplacer_will_return_leftChild_when_there_are_no_rightChild()
+void test_getReplacer_will_replace_the_root_with_leftChild_and_return_root_while_there_is_no_rightChild()
 {
 	Node
-	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
-	N150={.balance=-1 ,.leftChild=&N180 ,.rightChild=NULL,.data=150}
+	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+	N180={.balance=-1 ,.leftChild=&N150 ,.rightChild=NULL,.data=180}
 	;
 
-	Node *testRoot=&N150;
+	Node *testRoot=&N180;
 	Node *testNode=NULL;
 	testNode=getReplacer(&testRoot);
 	TEST_ASSERT_EQUAL(&N180,testNode);
+        TEST_ASSERT_EQUAL(&N150,testRoot);
 	TEST_ASSERT_EQUAL(0,testRoot->balance);
 }
 
