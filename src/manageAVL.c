@@ -310,22 +310,17 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 			(*root)=getReplacer(&((*root)->leftChild));
 			(*root)->leftChild=tempNode->leftChild;
 			(*root)->rightChild=tempNode->rightChild;
-			if((*root)->leftChild!=NULL)
-			{
-				if((*root)->leftChild->balance==0)
-				{
-					if(temp!=0)
-					(*root)->balance=tempNode->balance+1;
-				}
-				else
-				{
-					(*root)->balance=tempNode->balance;
-				}
-			}
-			else
-			{
-					(*root)->balance=tempNode->balance+1;		
-			}
+			(*root)->balance=tempNode->balance+1;
+			
+			// if((*root)->leftChild!=NULL)
+			// {
+				// if((*root)->leftChild->balance==0)
+				// {
+					// if(temp!=0)
+					// (*root)->balance=tempNode->balance-1;
+					
+				// }
+			// }
 		}
 		else
 		{

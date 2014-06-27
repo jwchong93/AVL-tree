@@ -893,7 +893,7 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	
+	//printf("What is the data in here ? ->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N90,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,0,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,0,testNode->leftChild);
@@ -913,7 +913,7 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
  * where 150 is being removed
  */
  
- void test_AVLRemove_will_take_the_right_most_node_to_replace()
+ void xtest_AVLRemove_will_take_the_right_most_node_to_replace()
  {	
 	Node N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
 		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
@@ -948,7 +948,7 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	
+	printf("What is the data in here ? ->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N90,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,-1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,1,testNode->leftChild);
