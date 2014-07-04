@@ -54,7 +54,7 @@ void test_getReplacer_will_return_right_node_when_there_are_three_nodes()
 	TEST_ASSERT_EQUAL(1,testRoot->balance);
 	TEST_ASSERT_EQUAL(0,testRoot->rightChild->balance);
 }
-
+/*
 void test_getReplacer_will_move_to_the_right_until_the_last_location()
 {
 	Node N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
@@ -80,6 +80,26 @@ void test_getReplacer_will_move_to_the_right_until_the_last_location()
 	TEST_ASSERT_EQUAL(0,testRoot->rightChild->rightChild->rightChild->rightChild->rightChild->rightChild->balance);
 }
 
+void test_getReplacer_will_return_the_last_rightChild_and_replace_the_rightChild_location_with_leftChild()
+{
+	Node
+	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
+	N150={.balance=-1 ,.leftChild=&N180 ,.rightChild=NULL,.data=150},
+	N120={.balance=2 ,.leftChild=NULL ,.rightChild=&N150,.data=120},
+	N50={.balance=3 ,.leftChild=NULL,.rightChild=&N120,.data=50}
+	;
+
+	Node *testRoot=&N50;
+	Node *testNode=NULL;
+	testNode=getReplacer(&testRoot);
+	TEST_ASSERT_EQUAL(&N150,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N120,2,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N180,1,testRoot->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild);
+	
+}
+
+*/
 
 void test_getReplacer_will_return_the_root_when_there_are_no_rightChild_or_leftChild()
 {
@@ -109,25 +129,6 @@ void test_getReplacer_will_replace_the_root_with_leftChild_and_return_root_while
 	TEST_ASSERT_EQUAL(0,testRoot->balance);
 }
 
-void test_getReplacer_will_return_the_last_rightChild_and_replace_the_rightChild_location_with_leftChild()
-{
-	Node
-	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
-	N150={.balance=-1 ,.leftChild=&N180 ,.rightChild=NULL,.data=150},
-	N120={.balance=2 ,.leftChild=NULL ,.rightChild=&N150,.data=120},
-	N50={.balance=3 ,.leftChild=NULL,.rightChild=&N120,.data=50}
-	;
-
-	Node *testRoot=&N50;
-	Node *testNode=NULL;
-	testNode=getReplacer(&testRoot);
-	TEST_ASSERT_EQUAL(&N150,testNode);
-	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N120,2,testRoot);
-	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N180,1,testRoot->rightChild);
-	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild);
-	
-}
-
 void test_getReplacer_update_the_balance_factor_while_returning_the_node()
 {
 	Node
@@ -147,7 +148,7 @@ void test_getReplacer_update_the_balance_factor_while_returning_the_node()
 	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N110,-2,testRoot);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild);
 	TEST_ASSERT_EQUAL_AVL_Node(&N40,&N60,1,testRoot->leftChild);
-	TEST_ASSERT_EQUAL_AVL_Node(&N55,NULL,1,testRoot->leftChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N55,NULL,-1,testRoot->leftChild->rightChild);
 	
 }
 
@@ -165,9 +166,7 @@ void test_getReplacer_will_handle_the_balance_factor_when_the_height_of_the_tree
 
 	Node *testRoot=&N100;
 	Node *testNode=NULL;
-	printf("Start\n");
 	testNode=getReplacer(&(testRoot->leftChild));
-	printf("End\n");
 	TEST_ASSERT_EQUAL(&N60,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N110,-2,testRoot);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild);
