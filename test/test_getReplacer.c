@@ -2,7 +2,7 @@
 #include "manageAVL.h"
 #include "CException.h"
 #include "customAssert.h"
-
+#include "AVLInt.h"
 void setUp(void)
 {
 }
@@ -125,5 +125,52 @@ void test_getReplacer_will_return_the_last_rightChild_and_replace_the_rightChild
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N120,2,testRoot);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N180,1,testRoot->rightChild);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild);
+	
+}
+
+void test_getReplacer_update_the_balance_factor_while_returning_the_node()
+{
+	Node
+	N80={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=80},
+	N55={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=55},
+	N60={.balance=0 ,.leftChild=&N55 ,.rightChild=&N80,.data=60},
+	N40={.balance=0 ,.leftChild=NULL,.rightChild=NULL,.data=40},
+	N50={.balance=1 ,.leftChild=&N40,.rightChild=&N60,.data=50},
+	N110={.balance=0 ,.leftChild=NULL,.rightChild=NULL,.data=110},
+	N100={.balance=-2 ,.leftChild=&N50,.rightChild=&N110,.data=100}
+	;
+
+	Node *testRoot=&N100;
+	Node *testNode=NULL;
+	testNode=getReplacer(&(testRoot->leftChild));
+	TEST_ASSERT_EQUAL(&N80,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N110,-2,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N40,&N60,1,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N55,NULL,1,testRoot->leftChild->rightChild);
+	
+}
+
+
+void test_getReplacer_will_handle_the_balance_factor_when_the_height_of_the_tree_decreased()
+{
+	Node
+	N55={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=55},
+	N60={.balance=-1 ,.leftChild=&N55 ,.rightChild=NULL,.data=60},
+	N40={.balance=0 ,.leftChild=NULL,.rightChild=NULL,.data=40},
+	N50={.balance=1 ,.leftChild=&N40,.rightChild=&N60,.data=50},
+	N110={.balance=0 ,.leftChild=NULL,.rightChild=NULL,.data=110},
+	N100={.balance=-2 ,.leftChild=&N50,.rightChild=&N110,.data=100}
+	;
+
+	Node *testRoot=&N100;
+	Node *testNode=NULL;
+	printf("Start\n");
+	testNode=getReplacer(&(testRoot->leftChild));
+	printf("End\n");
+	TEST_ASSERT_EQUAL(&N60,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N110,-2,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N40,&N55,0,testRoot->leftChild);
 	
 }

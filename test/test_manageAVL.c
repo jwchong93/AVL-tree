@@ -2,6 +2,7 @@
 #include "manageAVL.h"
 #include "CException.h"
 #include "customAssert.h"
+#include "AVLInt.h"
 void setUp(void)
 {
 }
@@ -790,21 +791,21 @@ void test_AVLBalance_will_balance_the_tree_using_doubleLeftRotate()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
 }
-	void test_AVLAdd_will_add_the_element_according_to_the_AVL_rule_with_three_element()
+	void test_avlAddInt_will_add_the_element_according_to_the_AVL_rule_with_three_element()
 {
 	Node Nroot ={.balance=0,.leftChild = NULL,.rightChild=NULL,.data=10},
 		N15 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 15},
 		N5 = {.balance=0,.leftChild=NULL,.rightChild=NULL,.data = 5};
 		Node *testNode=NULL;
 	
-		testNode = AVLAdd(testNode,&Nroot);
+		testNode = avlAddInt(testNode,&Nroot);
 		
 		TEST_ASSERT_NOT_NULL(testNode);
 		TEST_ASSERT_EQUAL(&Nroot,testNode);
-		testNode = AVLAdd(testNode,&N15);
+		testNode = avlAddInt(testNode,&N15);
 		TEST_ASSERT_NOT_NULL(testNode->rightChild);
 		TEST_ASSERT_EQUAL(&N15,testNode->rightChild);
-		testNode = AVLAdd(testNode,&N5);
+		testNode = avlAddInt(testNode,&N5);
 		TEST_ASSERT_NOT_NULL(testNode->leftChild);
 		TEST_ASSERT_EQUAL(&N5,testNode->leftChild);
 }
@@ -813,7 +814,7 @@ void test_AVLBalance_will_balance_the_tree_using_doubleLeftRotate()
 
 
 */
-void test_AVLAdd_will_add_one_element_into_the_tree()
+void test_avlAddInt_will_add_one_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1}
@@ -821,7 +822,7 @@ void test_AVLAdd_will_add_one_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -835,7 +836,7 @@ void test_AVLAdd_will_add_one_element_into_the_tree()
 		   50
 
 */
-void test_AVLAdd_will_add_two_element_into_the_tree()
+void test_avlAddInt_will_add_two_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -843,7 +844,7 @@ void test_AVLAdd_will_add_two_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -851,7 +852,7 @@ void test_AVLAdd_will_add_two_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
@@ -872,7 +873,7 @@ The elements is same except for the latest element.
 			  100
 
 */
-void test_AVLAdd_will_add_three_element_into_the_tree()
+void test_avlAddInt_will_add_three_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -881,7 +882,7 @@ void test_AVLAdd_will_add_three_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -889,13 +890,13 @@ void test_AVLAdd_will_add_three_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -913,7 +914,7 @@ void test_AVLAdd_will_add_three_element_into_the_tree()
 			  75
 
 */
-void test_AVLAdd_will_add_four_element_into_the_tree()
+void test_avlAddInt_will_add_four_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -923,7 +924,7 @@ void test_AVLAdd_will_add_four_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -931,13 +932,13 @@ void test_AVLAdd_will_add_four_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -945,7 +946,7 @@ void test_AVLAdd_will_add_four_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -970,7 +971,7 @@ void test_AVLAdd_will_add_four_element_into_the_tree()
 			  75 150
 
 */
-void test_AVLAdd_will_add_five_element_into_the_tree()
+void test_avlAddInt_will_add_five_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -981,7 +982,7 @@ void test_AVLAdd_will_add_five_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -989,13 +990,13 @@ void test_AVLAdd_will_add_five_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1003,13 +1004,13 @@ void test_AVLAdd_will_add_five_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
 	
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N150);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1034,7 +1035,7 @@ void test_AVLAdd_will_add_five_element_into_the_tree()
 					\                      
 					200                    
 */
-void test_AVLAdd_will_add_six_element_into_the_tree()
+void test_avlAddInt_will_add_six_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -1046,7 +1047,7 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -1054,13 +1055,13 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1068,13 +1069,13 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
 	
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N150);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1087,7 +1088,7 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1114,7 +1115,7 @@ void test_AVLAdd_will_add_six_element_into_the_tree()
           
                 
 */
-void test_AVLAdd_will_add_seven_element_into_the_tree()
+void test_avlAddInt_will_add_seven_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -1127,7 +1128,7 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 		;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -1135,13 +1136,13 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1149,13 +1150,13 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
 	
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N150);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1168,7 +1169,7 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1183,7 +1184,7 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N120);
+	testNode=avlAddInt(testNode,&N120);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1213,7 +1214,7 @@ void test_AVLAdd_will_add_seven_element_into_the_tree()
        1  75 105   140   250     
                 
 */
-void test_AVLAdd_will_add_eleven_element_into_the_tree()
+void test_avlAddInt_will_add_eleven_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -1230,7 +1231,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -1238,13 +1239,13 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1252,13 +1253,13 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
 	
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N150);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1271,7 +1272,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1286,7 +1287,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N120);
+	testNode=avlAddInt(testNode,&N120);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1303,7 +1304,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N110);
+	testNode=avlAddInt(testNode,&N110);
 	
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
@@ -1323,7 +1324,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 
-	testNode=AVLAdd(testNode,&N130);
+	testNode=avlAddInt(testNode,&N130);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1344,7 +1345,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N250);
+	testNode=avlAddInt(testNode,&N250);
 	
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
@@ -1367,7 +1368,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
-	testNode=AVLAdd(testNode,&N140);
+	testNode=avlAddInt(testNode,&N140);
 	
 	TEST_ASSERT_EQUAL(&N120,testNode);
 	TEST_ASSERT_EQUAL(&N100,testNode->leftChild);
@@ -1407,7 +1408,7 @@ void test_AVLAdd_will_add_eleven_element_into_the_tree()
    1  75 105   140   250     
                 
 */
-void test_AVLAdd_will_add_twelve_element_into_the_tree()
+void test_avlAddInt_will_add_twelve_element_into_the_tree()
 {
 
 	Node N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
@@ -1425,7 +1426,7 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	;
 	Node *testNode=NULL;	
 	
-	testNode=AVLAdd(testNode,&N1);
+	testNode=avlAddInt(testNode,&N1);
 	
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(testNode,&N1);
@@ -1433,13 +1434,13 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(0,testNode->balance);
 	
-	testNode=AVLAdd(testNode,&N50);
+	testNode=avlAddInt(testNode,&N50);
 	TEST_ASSERT_EQUAL(&N50,testNode->rightChild);
 	TEST_ASSERT_NULL(testNode->leftChild);
 	TEST_ASSERT_EQUAL(1,testNode->balance);
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	
-	testNode=AVLAdd(testNode,&N100);
+	testNode=avlAddInt(testNode,&N100);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1447,13 +1448,13 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N75);
+	testNode=avlAddInt(testNode,&N75);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N75,testNode->rightChild->leftChild);
 	
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N150);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N100,testNode->rightChild);
@@ -1466,7 +1467,7 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->rightChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1481,7 +1482,7 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N120);
+	testNode=avlAddInt(testNode,&N120);
 	TEST_ASSERT_EQUAL(&N100,testNode);
 	TEST_ASSERT_EQUAL(&N50,testNode->leftChild);
 	TEST_ASSERT_EQUAL(&N1,testNode->leftChild->leftChild);
@@ -1498,10 +1499,10 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->rightChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->leftChild->leftChild->balance);
 	
-	testNode=AVLAdd(testNode,&N110);
-	testNode=AVLAdd(testNode,&N130);
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N140);
+	testNode=avlAddInt(testNode,&N110);
+	testNode=avlAddInt(testNode,&N130);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N140);
 	
 	TEST_ASSERT_EQUAL(&N120,testNode);
 	TEST_ASSERT_EQUAL(&N100,testNode->leftChild);
@@ -1527,7 +1528,7 @@ void test_AVLAdd_will_add_twelve_element_into_the_tree()
 	TEST_ASSERT_EQUAL(-1,testNode->leftChild->balance);
 	TEST_ASSERT_EQUAL(0,testNode->balance);	
 	
-	testNode=AVLAdd(testNode,&N105);
+	testNode=avlAddInt(testNode,&N105);
 		
 	TEST_ASSERT_EQUAL(&N120,testNode);
 	TEST_ASSERT_EQUAL(&N100,testNode->leftChild);
@@ -1568,7 +1569,7 @@ The previous elements in the tree is remain the same, except for the latest elem
 		/
 	  180
 */
-void test_AVLAdd_will_balance_the_tree_while_all_the_data_go_to_the_left() 
+void test_avlAddInt_will_balance_the_tree_while_all_the_data_go_to_the_left() 
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1576,14 +1577,14 @@ void test_AVLAdd_will_balance_the_tree_while_all_the_data_go_to_the_left()
 		;
 	Node *testNode=NULL;
 	
-	testNode=AVLAdd(testNode,&N250);
+	testNode=avlAddInt(testNode,&N250);
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(&N250,testNode);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N200,testNode->leftChild);
 	
-	testNode=AVLAdd(testNode,&N180);
+	testNode=avlAddInt(testNode,&N180);
 	TEST_ASSERT_EQUAL(&N200,testNode);
 	TEST_ASSERT_EQUAL(&N250,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N180,testNode->leftChild);
@@ -1596,7 +1597,7 @@ void test_AVLAdd_will_balance_the_tree_while_all_the_data_go_to_the_left()
 		/
 	  180
 */
-void test_AVLAdd_will_balance_the_tree_for_three_data() 
+void test_avlAddInt_will_balance_the_tree_for_three_data() 
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1604,14 +1605,14 @@ void test_AVLAdd_will_balance_the_tree_for_three_data()
 		;
 	Node *testNode=NULL;
 	
-	testNode=AVLAdd(testNode,&N250);
+	testNode=avlAddInt(testNode,&N250);
 	TEST_ASSERT_NOT_NULL(testNode);
 	TEST_ASSERT_EQUAL(&N250,testNode);
 	
-	testNode=AVLAdd(testNode,&N200);
+	testNode=avlAddInt(testNode,&N200);
 	TEST_ASSERT_EQUAL(&N200,testNode->leftChild);
 	
-	testNode=AVLAdd(testNode,&N180);
+	testNode=avlAddInt(testNode,&N180);
 	TEST_ASSERT_EQUAL(&N200,testNode);
 	TEST_ASSERT_EQUAL(&N250,testNode->rightChild);
 	TEST_ASSERT_EQUAL(&N180,testNode->leftChild);
@@ -1625,7 +1626,7 @@ void test_AVLAdd_will_balance_the_tree_for_three_data()
 	195
 */
 
-void test_AVLAdd_will_balance_for_four_element()
+void test_avlAddInt_will_balance_for_four_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1633,10 +1634,10 @@ void test_AVLAdd_will_balance_for_four_element()
 	N195={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=195}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
 	
 	TEST_ASSERT_EQUAL(&N200,testNode);
 	TEST_ASSERT_EQUAL(&N180,testNode->leftChild);
@@ -1652,7 +1653,7 @@ void test_AVLAdd_will_balance_for_four_element()
  170 195
 */
 
-void test_AVLAdd_will_balance_for_five_element()
+void test_avlAddInt_will_balance_for_five_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1661,11 +1662,11 @@ void test_AVLAdd_will_balance_for_five_element()
 	N170={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=170}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
-	testNode=AVLAdd(testNode,&N170);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
+	testNode=avlAddInt(testNode,&N170);
 	
 	TEST_ASSERT_EQUAL(&N200,testNode);
 	TEST_ASSERT_EQUAL(&N180,testNode->leftChild);
@@ -1686,7 +1687,7 @@ void test_AVLAdd_will_balance_for_five_element()
  
 */
 
-void test_AVLAdd_will_balance_for_six_element()
+void test_avlAddInt_will_balance_for_six_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1696,12 +1697,12 @@ void test_AVLAdd_will_balance_for_six_element()
 	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
-	testNode=AVLAdd(testNode,&N170);
-	testNode=AVLAdd(testNode,&N150);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
+	testNode=avlAddInt(testNode,&N170);
+	testNode=avlAddInt(testNode,&N150);
 	
 	TEST_ASSERT_EQUAL(&N180,testNode);
 	TEST_ASSERT_EQUAL(&N170,testNode->leftChild);
@@ -1723,7 +1724,7 @@ void test_AVLAdd_will_balance_for_six_element()
  
 */
 
-void test_AVLAdd_will_balance_for_seven_element()
+void test_avlAddInt_will_balance_for_seven_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1734,13 +1735,13 @@ void test_AVLAdd_will_balance_for_seven_element()
 	N175={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=175}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
-	testNode=AVLAdd(testNode,&N170);
-	testNode=AVLAdd(testNode,&N150);
-	testNode=AVLAdd(testNode,&N175);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
+	testNode=avlAddInt(testNode,&N170);
+	testNode=avlAddInt(testNode,&N150);
+	testNode=avlAddInt(testNode,&N175);
 	
 	TEST_ASSERT_EQUAL(&N180,testNode);
 	TEST_ASSERT_EQUAL(&N170,testNode->leftChild);
@@ -1764,7 +1765,7 @@ void test_AVLAdd_will_balance_for_seven_element()
  
 */
 
-void test_AVLAdd_will_balance_for_eleven_element()
+void test_avlAddInt_will_balance_for_eleven_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1779,17 +1780,17 @@ void test_AVLAdd_will_balance_for_eleven_element()
 	N172={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=172}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
-	testNode=AVLAdd(testNode,&N170);
-	testNode=AVLAdd(testNode,&N150);
-	testNode=AVLAdd(testNode,&N175);
-	testNode=AVLAdd(testNode,&N174);
-	testNode=AVLAdd(testNode,&N176);
-	testNode=AVLAdd(testNode,&N100);
-	testNode=AVLAdd(testNode,&N172);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
+	testNode=avlAddInt(testNode,&N170);
+	testNode=avlAddInt(testNode,&N150);
+	testNode=avlAddInt(testNode,&N175);
+	testNode=avlAddInt(testNode,&N174);
+	testNode=avlAddInt(testNode,&N176);
+	testNode=avlAddInt(testNode,&N100);
+	testNode=avlAddInt(testNode,&N172);
 	
 	TEST_ASSERT_EQUAL(&N175,testNode);
 	TEST_ASSERT_EQUAL(&N170,testNode->leftChild);
@@ -1817,7 +1818,7 @@ void test_AVLAdd_will_balance_for_eleven_element()
  
 */
 
-void test_AVLAdd_will_balance_for_twelve_element()
+void test_avlAddInt_will_balance_for_twelve_element()
 {
 	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
@@ -1833,18 +1834,18 @@ void test_AVLAdd_will_balance_for_twelve_element()
 	N177={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=177}
 		;
 	Node *testNode=NULL;
-	testNode=AVLAdd(testNode,&N250);
-	testNode=AVLAdd(testNode,&N200);
-	testNode=AVLAdd(testNode,&N180);
-	testNode=AVLAdd(testNode,&N195);
-	testNode=AVLAdd(testNode,&N170);
-	testNode=AVLAdd(testNode,&N150);
-	testNode=AVLAdd(testNode,&N175);
-	testNode=AVLAdd(testNode,&N174);
-	testNode=AVLAdd(testNode,&N176);
-	testNode=AVLAdd(testNode,&N100);
-	testNode=AVLAdd(testNode,&N172);
-	testNode=AVLAdd(testNode,&N177);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N180);
+	testNode=avlAddInt(testNode,&N195);
+	testNode=avlAddInt(testNode,&N170);
+	testNode=avlAddInt(testNode,&N150);
+	testNode=avlAddInt(testNode,&N175);
+	testNode=avlAddInt(testNode,&N174);
+	testNode=avlAddInt(testNode,&N176);
+	testNode=avlAddInt(testNode,&N100);
+	testNode=avlAddInt(testNode,&N172);
+	testNode=avlAddInt(testNode,&N177);
 	
 	TEST_ASSERT_EQUAL(&N175,testNode);
 	TEST_ASSERT_EQUAL(&N170,testNode->leftChild);
@@ -1860,18 +1861,18 @@ void test_AVLAdd_will_balance_for_twelve_element()
 	TEST_ASSERT_EQUAL(&N177,testNode->rightChild->leftChild->rightChild);
 }
 
-void test_AVLAdd_will_throw_an_error_when_same_input_detected()
+void test_avlAddInt_will_throw_an_error_when_same_input_detected()
 {
 	Node N250A={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 		N250B={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250};
 	Error e;
 	Node *testNode=NULL;
 	
-	testNode=AVLAdd(testNode,&N250A);
+	testNode=avlAddInt(testNode,&N250A);
 	
 	Try
 	{
-	testNode=AVLAdd(testNode,&N250B);
+	testNode=avlAddInt(testNode,&N250B);
 	printf("Hahaha,You failed your program.");
 	}Catch(e)
 	{

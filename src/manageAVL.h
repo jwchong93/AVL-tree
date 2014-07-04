@@ -1,5 +1,8 @@
 #ifndef manageAVL_H
 #define manageAVL_H
+
+
+
 typedef struct node 
 {
 	int balance;
@@ -16,7 +19,11 @@ Node* leftRotate(Node *elem);
 Node* doubleRightRotate(Node *elem);
 Node* doubleLeftRotate(Node *elem);
 Node * AVLBalance(Node *root);
-Node * AVLAdd(Node *root,Node *nodeToAdd);
+
+Node * avlAdd(Node *root,Node *nodeToAdd,int (*compare)(void*,void*));
 Node * AVLRemove(Node ** root,Node *nodeToRemove);
 Node * getReplacer(Node ** root);
+
+
+
 #endif // manageAVL_H

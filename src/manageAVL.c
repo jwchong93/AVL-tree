@@ -1,6 +1,8 @@
 #include "manageAVL.h"
 #include <stdio.h>
 #include "CException.h"
+//#include "AVLInt.h"
+
 Node* leftRotate(Node *elem)
 {
 	if(elem->balance==2&&elem->rightChild->balance==1)
@@ -183,21 +185,28 @@ Node * AVLBalance(Node *root)
 	return root;
 }
 
-Node *AVLAdd(Node *root,Node *nodeToAdd)
+Node *avlAdd(Node *root,Node *nodeToAdd,int (*compare)(void*,void*))
 {
 	int temp=0;
+	int compareResult;
+
+	if(nodeToAdd==NULL)
+	{
+		return NULL;
+	}
 	if(root==NULL)
 	{
 		root = nodeToAdd;
 	}
 	else
 	{
-		if(root->data<nodeToAdd->data)
+		compareResult = compare(root,nodeToAdd);
+		if(compareResult==-1)
 		{
 				if(root->rightChild!=NULL)
 				{
 					temp = root->rightChild->balance;
-					root->rightChild = AVLAdd(root->rightChild,nodeToAdd);
+					root->rightChild = avlAdd(root->rightChild,nodeToAdd,compare);
 					if(temp!=root->rightChild->balance)
 					{
 						if(root->rightChild->balance==0)
@@ -217,17 +226,17 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 				}
 				else
 				{
-					root->rightChild = AVLAdd(root->rightChild,nodeToAdd);
+					root->rightChild = avlAdd(root->rightChild,nodeToAdd,compare);
 					root->balance++;
 					
 				}
 		}
-		else if(root->data>nodeToAdd->data)
+		else if(compareResult==1)
 		{
 			if(root->leftChild!=NULL)
 			{
 				temp=root->leftChild->balance;
-				root->leftChild = AVLAdd(root->leftChild,nodeToAdd);
+				root->leftChild = avlAdd(root->leftChild,nodeToAdd,compare);
 					if(temp!=root->leftChild->balance)
 					{
 						if(root->leftChild->balance==0)
@@ -240,13 +249,13 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 						}
 					}
 			}
-			else
+			else 
 			{
-				root->leftChild = AVLAdd(root->leftChild,nodeToAdd);
+				root->leftChild = avlAdd(root->leftChild,nodeToAdd,compare);
 				root->balance--;
 			}
 		}
-		else
+		else if (compareResult==0)
 		{
 			Throw(INVALID_INPUT);
 		}
@@ -259,6 +268,7 @@ Node * getReplacer(Node ** root)
 {
 	Node *tempNode=NULL;
 	int temp;
+	
 	if((*root)->rightChild==NULL)
 	{
 		tempNode=(*root);
@@ -273,9 +283,26 @@ Node * getReplacer(Node ** root)
 		if((*root)->rightChild->leftChild!=NULL)
 		{
 			(*root)->rightChild=(*root)->rightChild->leftChild;
+			//printf("The removed node balance:%d\nThe root rightChild balance:%d\n",tempNode->balance,(*root)->rightChild->balance);
+			//printf("The data \nRemoved data:%d\nThe root rightChild balance:%d\n",tempNode->data,(*root)->rightChild->data);
+			(*root)->rightChild->balance=tempNode->balance+1;
+			//printf("After\nThe removed node balance:%d\nThe root rightChild balance:%d\n",tempNode->balance,(*root)->rightChild->balance);
 		}
-		
-		(*root)->balance--;
+		else
+		{
+			(*root)->rightChild=NULL;
+		}
+
+			(*root)->balance--; 
+			
+		if((*root)->rightChild!=NULL)
+		{
+			if((*root)->rightChild->leftChild!=NULL)
+			{
+				(*root)->balance+=2; 
+			}
+		}
+
 	}
 	else
 	{
@@ -283,19 +310,11 @@ Node * getReplacer(Node ** root)
 		tempNode = getReplacer(&((*root)->rightChild));
 		if(temp!=(*root)->rightChild->balance)
 		{
-			// if((*root)->rightChild->balance!=0/*||(*root)->rightChild->balance==-1*/)
-			// {
-				(*root)->balance--;
-				
-			// }
-			// else
-			// {
-				
-				// (*root)->balance--;
-				
-			// }
+			(*root)->balance--;
+
 		}
 	}
+	
 	/*
 	if((*root)->rightChild==NULL)
 	{
@@ -335,11 +354,13 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 		tempNode=(*root);
 		if((*root)->leftChild!=NULL)
 		{
+			temp=(*root)->leftChild->balance;
 			(*root)=getReplacer(&((*root)->leftChild));
 			if((*root)!=tempNode->leftChild)
 			(*root)->leftChild=tempNode->leftChild;
 			(*root)->rightChild=tempNode->rightChild;
 			(*root)->balance=tempNode->balance+1;
+			
 			
 
 		}
@@ -349,16 +370,6 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 			(*root)->leftChild=tempNode->leftChild;
 			(*root)->rightChild=tempNode->rightChild;
 			(*root)->balance=tempNode->balance-1;
-			
-			if((*root)->rightChild!=NULL)
-			{
-				if((*root)->rightChild->balance==0)
-				{
-					if(temp!=0)
-					(*root)->balance=tempNode->balance+1;
-					
-				}
-			}
 		}
 		else
 		{
@@ -368,45 +379,31 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 	}
 	else if ((*root)->rightChild!=NULL&&nodeToRemove->data>(*root)->data)
 	{
-		temp= (*root)->rightChild->balance;
 		checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
-		if((*root)->rightChild!=NULL&&(*root)->rightChild->balance!=temp)
-		{
-			if((*root)->rightChild->balance!=0&&temp!=0)
-			{
-				(*root)->rightChild->balance++;
-			}
-		}
 		if(checkNode!=NULL)
+		{
+			if((*root)->rightChild!=NULL)
+			{
+				if((*root)->rightChild->balance==-1||(*root)->rightChild->balance==1)
 				{
-					if((*root)->rightChild!=NULL)
-					 {
-						if((*root)->rightChild->balance==-1||(*root)->rightChild->balance==1)
-						{
-						}
-						else
-						{
-							(*root)->balance--;
-						}
-					}
-					else
-					{
-						(*root)->balance--;
-					}
+					
 				}
+				else
+				{
+					(*root)->balance--;
+				}
+			}
+			else
+			{
+				(*root)->balance--;
+			}
+	
+		}
 				
 	}
 	else if ((*root)->leftChild!=NULL&&nodeToRemove->data<(*root)->data)
 	{
-		temp= (*root)->leftChild->balance;
 		checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
-		if((*root)->leftChild!=NULL&&(*root)->leftChild->balance!=temp)
-		{
-			if((*root)->leftChild->balance!=0&&temp!=0)
-			{
-				(*root)->leftChild->balance--;
-			}
-		}
 		if(checkNode!=NULL)
 				{
 					if((*root)->leftChild!=NULL)
@@ -574,8 +571,6 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 		return tempNode;
 	}
 }
-
-
 
 
 
