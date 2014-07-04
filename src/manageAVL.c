@@ -258,6 +258,45 @@ Node *AVLAdd(Node *root,Node *nodeToAdd)
 Node * getReplacer(Node ** root)
 {
 	Node *tempNode=NULL;
+	int temp;
+	if((*root)->rightChild==NULL)
+	{
+		tempNode=(*root);
+		if((*root)->leftChild!=NULL)
+		(*root)=(*root)->leftChild;
+		
+		
+	}
+	else if((*root)->rightChild->rightChild==NULL)
+	{	
+		tempNode=(*root)->rightChild;
+		if((*root)->rightChild->leftChild!=NULL)
+		{
+			(*root)->rightChild=(*root)->rightChild->leftChild;
+		}
+		
+		(*root)->balance--;
+	}
+	else
+	{
+		temp = (*root)->balance;
+		tempNode = getReplacer(&((*root)->rightChild));
+		if(temp!=(*root)->rightChild->balance)
+		{
+			// if((*root)->rightChild->balance!=0/*||(*root)->rightChild->balance==-1*/)
+			// {
+				(*root)->balance--;
+				
+			// }
+			// else
+			// {
+				
+				// (*root)->balance--;
+				
+			// }
+		}
+	}
+	/*
 	if((*root)->rightChild==NULL)
 	{
 	        tempNode = (*root);
@@ -281,6 +320,7 @@ Node * getReplacer(Node ** root)
 	{
 		(*root)->balance--;
 	}
+	*/
 	return tempNode;
 	
 }
@@ -296,19 +336,12 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 		if((*root)->leftChild!=NULL)
 		{
 			(*root)=getReplacer(&((*root)->leftChild));
+			if((*root)!=tempNode->leftChild)
 			(*root)->leftChild=tempNode->leftChild;
 			(*root)->rightChild=tempNode->rightChild;
 			(*root)->balance=tempNode->balance+1;
 			
-			if((*root)->leftChild!=NULL)
-			{
-				if((*root)->leftChild->balance==0)
-				{
-					if(temp!=0)
-					(*root)->balance=tempNode->balance+1;
-					
-				}
-			}
+
 		}
 		else if((*root)->rightChild!=NULL)
 		{
@@ -335,7 +368,15 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 	}
 	else if ((*root)->rightChild!=NULL&&nodeToRemove->data>(*root)->data)
 	{
+		temp= (*root)->rightChild->balance;
 		checkNode = AVLRemove(&((*root)->rightChild),nodeToRemove);
+		if((*root)->rightChild!=NULL&&(*root)->rightChild->balance!=temp)
+		{
+			if((*root)->rightChild->balance!=0&&temp!=0)
+			{
+				(*root)->rightChild->balance++;
+			}
+		}
 		if(checkNode!=NULL)
 				{
 					if((*root)->rightChild!=NULL)
@@ -357,7 +398,15 @@ Node* AVLRemove(Node **root,Node *nodeToRemove)
 	}
 	else if ((*root)->leftChild!=NULL&&nodeToRemove->data<(*root)->data)
 	{
+		temp= (*root)->leftChild->balance;
 		checkNode = AVLRemove(&((*root)->leftChild),nodeToRemove);
+		if((*root)->leftChild!=NULL&&(*root)->leftChild->balance!=temp)
+		{
+			if((*root)->leftChild->balance!=0&&temp!=0)
+			{
+				(*root)->leftChild->balance--;
+			}
+		}
 		if(checkNode!=NULL)
 				{
 					if((*root)->leftChild!=NULL)

@@ -10,7 +10,11 @@ void setUp(void)
 void tearDown(void)
 {
 }
-
+/*
+	180
+      \
+	  150
+*/
 void test_getReplacer_will_return_right_node_when_there_are_two_nodes()
 {
 	Node
@@ -25,6 +29,14 @@ void test_getReplacer_will_return_right_node_when_there_are_two_nodes()
 	TEST_ASSERT_EQUAL(0,testRoot->balance);
 }
 
+/*
+	150
+     \
+	  150
+	   \
+	   185
+	   remove 185
+*/
 void test_getReplacer_will_return_right_node_when_there_are_three_nodes()
 {
 	Node
@@ -35,7 +47,9 @@ void test_getReplacer_will_return_right_node_when_there_are_three_nodes()
 
 	Node *testRoot=&N150;
 	Node *testNode=NULL;
+	//printf("Starting....\n");
 	testNode=getReplacer(&testRoot);
+	//printf("Ending....\n");
 	TEST_ASSERT_EQUAL(&N185,testNode);
 	TEST_ASSERT_EQUAL(1,testRoot->balance);
 	TEST_ASSERT_EQUAL(0,testRoot->rightChild->balance);
@@ -66,6 +80,7 @@ void test_getReplacer_will_move_to_the_right_until_the_last_location()
 	TEST_ASSERT_EQUAL(0,testRoot->rightChild->rightChild->rightChild->rightChild->rightChild->rightChild->balance);
 }
 
+
 void test_getReplacer_will_return_the_root_when_there_are_no_rightChild_or_leftChild()
 {
 	Node
@@ -78,6 +93,7 @@ void test_getReplacer_will_return_the_root_when_there_are_no_rightChild_or_leftC
 	TEST_ASSERT_EQUAL(&N150,testNode);
 }
 
+
 void test_getReplacer_will_replace_the_root_with_leftChild_and_return_root_while_there_is_no_rightChild()
 {
 	Node
@@ -89,7 +105,7 @@ void test_getReplacer_will_replace_the_root_with_leftChild_and_return_root_while
 	Node *testNode=NULL;
 	testNode=getReplacer(&testRoot);
 	TEST_ASSERT_EQUAL(&N180,testNode);
-      TEST_ASSERT_EQUAL(&N150,testRoot);
+    TEST_ASSERT_EQUAL(&N150,testRoot);
 	TEST_ASSERT_EQUAL(0,testRoot->balance);
 }
 

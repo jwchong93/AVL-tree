@@ -913,7 +913,7 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
  * where 150 is being removed
  */
  
- void xtest_AVLRemove_will_take_the_right_most_node_to_replace()
+ void test_AVLRemove_will_take_the_right_most_node_to_replace()
  {	
 	Node N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
 		N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
