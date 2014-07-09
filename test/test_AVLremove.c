@@ -843,11 +843,8 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	testNode=avlAddInt(testNode,&N1);
 	
 	testNode2=AVLRemove(&testNode,&N25);
-	
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N25,testNode2);
-	
-	//printf("What is the leftChild?->%d",testNode->leftChild->leftChild->data);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N200,-1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N40,1,testNode->leftChild);
@@ -893,7 +890,6 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	//printf("What is the data in here ? ->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N90,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,0,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,0,testNode->leftChild);
@@ -948,7 +944,6 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 
 	TEST_ASSERT_NOT_NULL(testNode2);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	//printf("What is the data in here ? ->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N90,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N200,-1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,1,testNode->leftChild);
@@ -1393,7 +1388,7 @@ void test_AVLRemove_will_remove_the_right_node()
  }
 	
 	
-	/**
+/**
  *      50               50
  *     /  \             /  \
  *   25   200    =>   25   175
@@ -1406,7 +1401,7 @@ void test_AVLRemove_will_remove_the_right_node()
  */
  
  
- void xtest_AVLRemove_will_remove_200_and_replace_it_using_175()
+ void test_AVLRemove_will_remove_200_and_replace_it_using_175()
  {
 		Node N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
 		N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
@@ -1429,10 +1424,10 @@ void test_AVLRemove_will_remove_the_right_node()
 	testNode=avlAddInt(testNode,&N150);
 	testNode=avlAddInt(testNode,&N175);
 	testNode=avlAddInt(testNode,&N120);
-	
+	printf("Start\n");
 	testNode2=AVLRemove(&testNode,&N200);
+	printf("End\n");
 	TEST_ASSERT_EQUAL(&N200,testNode2);
-	
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N175,1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N250,-1,testNode->rightChild);
