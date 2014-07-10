@@ -13,7 +13,6 @@ typedef struct node
 typedef enum error {INVALID_INPUT}Error;
 
 int getHeight(Node *elem);
-void getBalance(Node *elem);
 Node* rightRotate(Node *elem);
 Node* leftRotate(Node *elem);
 Node* doubleRightRotate(Node *elem);

@@ -273,7 +273,6 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	
 	testNode2=AVLRemove(&testNode,&N150);
 	TEST_ASSERT_EQUAL(&N150,testNode2);
-	//printf("The Value of the testNode->%d",testNode->data);
 	TEST_ASSERT_EQUAL(&N25,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N50,0,testNode);
 	
@@ -480,7 +479,6 @@ void test_AVLRemove_will_remove_the_right_child_of_the_root()
 	
 	testNode2=AVLRemove(&testNode,&N1);
 	TEST_ASSERT_NULL(testNode2);
-	//printf("What is the leftChild?->%d",testNode->leftChild->data);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N150,1,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N200,1,testNode->rightChild);
  }
@@ -1424,9 +1422,7 @@ void test_AVLRemove_will_remove_the_right_node()
 	testNode=avlAddInt(testNode,&N150);
 	testNode=avlAddInt(testNode,&N175);
 	testNode=avlAddInt(testNode,&N120);
-	printf("Start\n");
 	testNode2=AVLRemove(&testNode,&N200);
-	printf("End\n");
 	TEST_ASSERT_EQUAL(&N200,testNode2);
 	TEST_ASSERT_EQUAL(&N50,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N175,1,testNode);
@@ -1437,7 +1433,7 @@ void test_AVLRemove_will_remove_the_right_node()
 	
 	
  }
- 
+
  /**
  *              175                                   175
  *          /          \                         /          \
@@ -1454,37 +1450,71 @@ void test_AVLRemove_will_remove_the_right_node()
  * where 400 is being removed
  */
  
- void xtest_AVLRemove_will_remove_400_from_a_very_large_tree()
+ void test_AVLRemove_will_remove_400_from_a_very_large_tree()
  {
 	Node N600={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=600},
-	N550={.balance=0 ,.leftChild=NULL ,.rightChild=&N600,.data=550},
+	N550={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=550},
 	N450={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=450},
-	N500={.balance=0 ,.leftChild=&N450 ,.rightChild=&N550,.data=500},
+	N500={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=500},
 	N330={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=330},
-	N350={.balance=0 ,.leftChild=&N330 ,.rightChild=NULL,.data=350},
+	N350={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=350},
 	N270={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=270},
-	N300={.balance=0 ,.leftChild=&N270 ,.rightChild=&N350,.data=300},
+	N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
 	N220={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=220},
-	N200={.balance=0 ,.leftChild=NULL ,.rightChild=&N200,.data=200},
-	N250={.balance=0 ,.leftChild=&N200 ,.rightChild=&N300,.data=250},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+	N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
 	N120={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=120},
-	N150={.balance=0 ,.leftChild=&N120 ,.rightChild=NULL,.data=150},
+	N150={.balance=0 ,.leftChild=NULL,.rightChild=NULL,.data=150},
 	N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
 	N65={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=65},
-	N25={.balance=0 ,.leftChild=NULL ,.rightChild=&N40,.data=25},
-	N50={.balance=0 ,.leftChild=&N25 ,.rightChild=&N65,.data=50},
-	N400={.balance=0 ,.leftChild=&N250 ,.rightChild=&N500,.data=400},
-	N100={.balance=0 ,.leftChild=&N50 ,.rightChild=&N150,.data=100},
-	N175={.balance=0 ,.leftChild=&N100 ,.rightChild=&N400,.data=175}
+	N25={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=25},
+	N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50},
+	N400={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=400},
+	N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+	N175={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=175}
 	;
 	Node *testNode=NULL;
 	Node *testNode2=NULL;
-	
 	testNode=avlAddInt(testNode,&N175);
+	testNode=avlAddInt(testNode,&N100);
+	testNode=avlAddInt(testNode,&N400);
+	testNode=avlAddInt(testNode,&N50);
+	testNode=avlAddInt(testNode,&N150);
+	testNode=avlAddInt(testNode,&N250);
+	testNode=avlAddInt(testNode,&N500);
+	testNode=avlAddInt(testNode,&N25);
+	testNode=avlAddInt(testNode,&N65);
+	testNode=avlAddInt(testNode,&N120);
+	testNode=avlAddInt(testNode,&N200);
+	testNode=avlAddInt(testNode,&N300);
+	testNode=avlAddInt(testNode,&N450);
+	testNode=avlAddInt(testNode,&N550);
+	testNode=avlAddInt(testNode,&N40);
+	testNode=avlAddInt(testNode,&N220);
+	testNode=avlAddInt(testNode,&N270);
+	testNode=avlAddInt(testNode,&N350);
+	testNode=avlAddInt(testNode,&N600);
+	testNode=avlAddInt(testNode,&N330);
 	
+
+	TEST_ASSERT_EQUAL(&N175,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N100,&N400,1,testNode);
+	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N150,-1,testNode->leftChild); //100
+	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N65,-1,testNode->leftChild->leftChild); //50
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N40,1,testNode->leftChild->leftChild->leftChild); //25
+	TEST_ASSERT_EQUAL_AVL_Node(&N250,&N500,-1,testNode->rightChild); //400
+	TEST_ASSERT_EQUAL_AVL_Node(&N200,&N300,1,testNode->rightChild->leftChild); //250
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N220,1,testNode->rightChild->leftChild->leftChild); //200
+	TEST_ASSERT_EQUAL_AVL_Node(&N270,&N350,1,testNode->rightChild->leftChild->rightChild); //300
+	TEST_ASSERT_EQUAL_AVL_Node(&N330,NULL,-1,testNode->rightChild->leftChild->rightChild->rightChild); //350
+	TEST_ASSERT_EQUAL_AVL_Node(&N450,&N550,1,testNode->rightChild->rightChild); //500
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,&N600,1,testNode->rightChild->rightChild->rightChild); //550
+
+	testNode2=AVLRemove(&testNode,&N400);
+	TEST_ASSERT_EQUAL(&N400,testNode2);
 	TEST_ASSERT_EQUAL(&N175,testNode);
 	TEST_ASSERT_EQUAL_AVL_Node(&N100,&N350,0,testNode);
-	TEST_ASSERT_EQUAL_AVL_Node(&N250,&N500,-1,testNode->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N250,&N500,0,testNode->rightChild);
 	TEST_ASSERT_EQUAL_AVL_Node(&N50,&N150,-1,testNode->leftChild);
 	TEST_ASSERT_EQUAL_AVL_Node(&N120,NULL,-1,testNode->leftChild->rightChild);
 	TEST_ASSERT_EQUAL_AVL_Node(&N25,&N65,-1,testNode->leftChild->leftChild);
@@ -1492,198 +1522,197 @@ void test_AVLRemove_will_remove_the_right_node()
 
  }
  
-// /**
-        // 200          200         180
-       // /  \   =>     /     =>    / \
-      // 180 250      180         150 200
-     // /  \          / \              /
-    // 150 190      150 190           190
-// **/
+/**
+        200          200         180
+       /  \   =>     /     =>    / \
+      180 250      180         150 200
+     /  \          / \              /
+    150 190      150 190           190
+**/
 
-// void test_AVLRemove_will_balance_the_tree_after_remove()
-// {
-	// Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
-	// N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
-	// N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
-	// N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
-	// N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
-		// ;
+void test_AVLRemove_will_balance_the_tree_after_remove()
+{
+	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
+	N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
+	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150}
+		;
 		
-	// Node *testNode=NULL;
-	// Node *testRoot=NULL;
-	// testRoot=avlAddInt(testRoot,&N250);
-	// testRoot=avlAddInt(testRoot,&N200);
-	// testRoot=avlAddInt(testRoot,&N180);
-	// testRoot=avlAddInt(testRoot,&N190);
-	// testRoot=avlAddInt(testRoot,&N150);
+	Node *testNode=NULL;
+	Node *testRoot=NULL;
+	testRoot=avlAddInt(testRoot,&N250);
+	testRoot=avlAddInt(testRoot,&N200);
+	testRoot=avlAddInt(testRoot,&N180);
+	testRoot=avlAddInt(testRoot,&N190);
+	testRoot=avlAddInt(testRoot,&N150);
 	
-	// testNode=AVLRemove(&testRoot,&N250);
-	// TEST_ASSERT_NOT_NULL(testNode);
-	// TEST_ASSERT_EQUAL(&N250,testNode);
-	// TEST_ASSERT_EQUAL(&N180,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N150,&N200,1,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N190,NULL,-1,testRoot->rightChild);
-// }
+	testNode=AVLRemove(&testRoot,&N250);
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N250,testNode);
+	TEST_ASSERT_EQUAL(&N180,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N200,1,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N190,NULL,-1,testRoot->rightChild);
+}
 
 
 
-// /**
-        // 200          200          200           190
-       // /  \   =>     /  \   =>    / \    =>    /   \
-      // 180 250      180  250     190 250      180   200
-     // /  \   \      / \          / \          / \   /  \
-    // 150 190 300   150 190     180 195      150 185 195 250
-        // / \           / \     / \       
-      // 185 195       185 195 150 185      
-// **/
-// void test_AVLRemove_will_balance_the_tree_after_remove_the_element_at_level_3()
-// {
-	// Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
-	// N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
-	// N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
-	// N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
-	// N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
-	// N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
-	// N185={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=185},
-	// N195={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=195}
-		// ;
-	// Node *testNode=NULL;
-	// Node *testRoot=NULL;
-	// testRoot=avlAddInt(testRoot,&N250);
-	// testRoot=avlAddInt(testRoot,&N200);
-	// testRoot=avlAddInt(testRoot,&N180);
-	// testRoot=avlAddInt(testRoot,&N190);
-	// testRoot=avlAddInt(testRoot,&N150);
-	// testRoot=avlAddInt(testRoot,&N300);
-	// testRoot=avlAddInt(testRoot,&N185);
-	// testRoot=avlAddInt(testRoot,&N195);
+/**
+        200          200          200           190
+       /  \   =>     /  \   =>    / \    =>    /   \
+      180 250      180  250     190 250      180   200
+     /  \   \      / \          / \          / \   /  \
+    150 190 300   150 190     180 195      150 185 195 250
+        / \           / \     / \       
+      185 195       185 195 150 185      
+**/
+void test_AVLRemove_will_balance_the_tree_after_remove_the_element_at_level_3()
+{
+	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
+	N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
+	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+	N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
+	N185={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=185},
+	N195={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=195}
+		;
+	Node *testNode=NULL;
+	Node *testRoot=NULL;
+	testRoot=avlAddInt(testRoot,&N250);
+	testRoot=avlAddInt(testRoot,&N200);
+	testRoot=avlAddInt(testRoot,&N180);
+	testRoot=avlAddInt(testRoot,&N190);
+	testRoot=avlAddInt(testRoot,&N150);
+	testRoot=avlAddInt(testRoot,&N300);
+	testRoot=avlAddInt(testRoot,&N185);
+	testRoot=avlAddInt(testRoot,&N195);
 	
-	// testNode=AVLRemove(&testRoot,&N300);
-	// TEST_ASSERT_NOT_NULL(testNode);
-	// TEST_ASSERT_EQUAL(&N300,testNode);
-	// TEST_ASSERT_EQUAL(&N190,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N180,&N200,0,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N150,&N185,0,testRoot->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N195,&N250,0,testRoot->rightChild);
+	testNode=AVLRemove(&testRoot,&N300);
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N300,testNode);
+	TEST_ASSERT_EQUAL(&N190,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N180,&N200,0,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N185,0,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N195,&N250,0,testRoot->rightChild);
 
-// }
-// /**
-        // 200          200          200           190
-       // /  \   =>     /  \   =>    / \    =>    /   \
-      // 180 250      180  300     190 300      180   200
-     // /  \   \      / \          / \          / \   /  \
-    // 150 190 300   150 190     180 195      150 185 195 300
-        // / \           / \     / \       
-      // 185 195       185 195 150 185      
-// **/
-// void test_AVLRemove_will_replace_the_empty_space_of_N250_with_N300()
-// {
-	// Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
-	// N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
-	// N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
-	// N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
-	// N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
-	// N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
-	// N185={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=185},
-	// N195={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=195}
-		// ;
-	// Node *testNode=NULL;
-	// Node *testRoot=NULL;
-	// testRoot=avlAddInt(testRoot,&N250);
-	// testRoot=avlAddInt(testRoot,&N200);
-	// testRoot=avlAddInt(testRoot,&N180);
-	// testRoot=avlAddInt(testRoot,&N190);
-	// testRoot=avlAddInt(testRoot,&N150);
-	// testRoot=avlAddInt(testRoot,&N300);
-	// testRoot=avlAddInt(testRoot,&N185);
-	// testRoot=avlAddInt(testRoot,&N195);
+}
+/**
+        200          200          200           190
+       /  \   =>     /  \   =>    / \    =>    /   \
+      180 250      180  300     190 300      180   200
+     /  \   \      / \          / \          / \   /  \
+    150 190 300   150 190     180 195      150 185 195 300
+        / \           / \     / \       
+      185 195       185 195 150 185      
+**/
+void test_AVLRemove_will_replace_the_empty_space_of_N250_with_N300()
+{
+	Node N250={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=250},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+	N180={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=180},
+	N190={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=190},
+	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+	N300={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=300},
+	N185={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=185},
+	N195={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=195}
+		;
+	Node *testNode=NULL;
+	Node *testRoot=NULL;
+	testRoot=avlAddInt(testRoot,&N250);
+	testRoot=avlAddInt(testRoot,&N200);
+	testRoot=avlAddInt(testRoot,&N180);
+	testRoot=avlAddInt(testRoot,&N190);
+	testRoot=avlAddInt(testRoot,&N150);
+	testRoot=avlAddInt(testRoot,&N300);
+	testRoot=avlAddInt(testRoot,&N185);
+	testRoot=avlAddInt(testRoot,&N195);
 	
-	// testNode=AVLRemove(&testRoot,&N250);
-	// TEST_ASSERT_NOT_NULL(testNode);
-	// TEST_ASSERT_EQUAL(&N250,testNode);
-	//printf("What this?->%d\n",testRoot->data);
-	// TEST_ASSERT_EQUAL(&N190,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N180,&N200,0,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N150,&N185,0,testRoot->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N195,&N300,0,testRoot->rightChild);
+	testNode=AVLRemove(&testRoot,&N250);
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N250,testNode);
+	TEST_ASSERT_EQUAL(&N190,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N180,&N200,0,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N150,&N185,0,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N195,&N300,0,testRoot->rightChild);
 
-// }
-// /**
-        // 200          200          200           190
-       // /  \   =>     /  \   =>    / \    =>    /   \
-      // 180 250      180  300     190 300      180   200
-     // /  \   \      / \          / \          / \   /  \
-    // 150 190 300   150 190     180 195      150 185 195 300
-        // / \           / \     / \       
-      // 185 195       185 195 150 185      
-// **/
+}
+/**
+        200          200          200           190
+       /  \   =>     /  \   =>    / \    =>    /   \
+      180 250      180  300     190 300      180   200
+     /  \   \      / \          / \          / \   /  \
+    150 190 300   150 190     180 195      150 185 195 300
+        / \           / \     / \       
+      185 195       185 195 150 185      
+**/
 
-// void test_AVLRemove_N100_will_replace_by_N75()
-// {
-	// Node N60={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=60},
-	// N140={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=140},
-	// N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
-	// N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
-	// N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
-	// N19={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=19},
-	// N17={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=17},
-	// N5={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=5},
-	// N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
-	// N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
-	// N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
-	// N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50}
-		// ;
-	// Node *testNode=NULL;
-	// Node *testRoot=NULL;
-	// testRoot=avlAddInt(testRoot,&N50);
-	// testRoot=avlAddInt(testRoot,&N1);
-	// testRoot=avlAddInt(testRoot,&N100);
-	// testRoot=avlAddInt(testRoot,&N75);
-	// testRoot=avlAddInt(testRoot,&N5);
-	// testRoot=avlAddInt(testRoot,&N17);
+void test_AVLRemove_N100_will_replace_by_N75()
+{
+	Node N60={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=60},
+	N140={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=140},
+	N40={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=40},
+	N200={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=200},
+	N150={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=150},
+	N19={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=19},
+	N17={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=17},
+	N5={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=5},
+	N75={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=75},
+	N100={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=100},
+	N1={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=1},
+	N50={.balance=0 ,.leftChild=NULL ,.rightChild=NULL,.data=50}
+		;
+	Node *testNode=NULL;
+	Node *testRoot=NULL;
+	testRoot=avlAddInt(testRoot,&N50);
+	testRoot=avlAddInt(testRoot,&N1);
+	testRoot=avlAddInt(testRoot,&N100);
+	testRoot=avlAddInt(testRoot,&N75);
+	testRoot=avlAddInt(testRoot,&N5);
+	testRoot=avlAddInt(testRoot,&N17);
 	
-	// testRoot=avlAddInt(testRoot,&N19);
-	// testRoot=avlAddInt(testRoot,&N150);
-	// testRoot=avlAddInt(testRoot,&N200);
-	// testRoot=avlAddInt(testRoot,&N140);
-	// testRoot=avlAddInt(testRoot,&N60);
-	// testRoot=avlAddInt(testRoot,&N40);
+	testRoot=avlAddInt(testRoot,&N19);
+	testRoot=avlAddInt(testRoot,&N150);
+	testRoot=avlAddInt(testRoot,&N200);
+	testRoot=avlAddInt(testRoot,&N140);
+	testRoot=avlAddInt(testRoot,&N60);
+	testRoot=avlAddInt(testRoot,&N40);
 	
-	// TEST_ASSERT_EQUAL(&N50,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N5,&N100,0,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N1,&N19,1,testRoot->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N17,&N40,0,testRoot->leftChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N75,&N150,0,testRoot->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N140,&N200,0,testRoot->rightChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N60,NULL,-1,testRoot->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->leftChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N50,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N5,&N100,0,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N19,1,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N17,&N40,0,testRoot->leftChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N75,&N150,0,testRoot->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N140,&N200,0,testRoot->rightChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N60,NULL,-1,testRoot->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->leftChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->rightChild);
 	
 	
-	// testNode=AVLRemove(&testRoot,&N100);
-	// TEST_ASSERT_NOT_NULL(testNode);
-	// TEST_ASSERT_EQUAL(&N100,testNode);
+	testNode=AVLRemove(&testRoot,&N100);
+	TEST_ASSERT_NOT_NULL(testNode);
+	TEST_ASSERT_EQUAL(&N100,testNode);
 	
-	// TEST_ASSERT_EQUAL(&N50,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N5,&N75,0,testRoot);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N1,&N19,1,testRoot->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N17,&N40,0,testRoot->leftChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N60,&N150,1,testRoot->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(&N140,&N200,0,testRoot->rightChild->rightChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->leftChild);
-	// TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->rightChild);
+	TEST_ASSERT_EQUAL(&N50,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N5,&N75,0,testRoot);
+	TEST_ASSERT_EQUAL_AVL_Node(&N1,&N19,1,testRoot->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N17,&N40,0,testRoot->leftChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->leftChild->rightChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N60,&N150,1,testRoot->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(&N140,&N200,0,testRoot->rightChild->rightChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->leftChild);
+	TEST_ASSERT_EQUAL_AVL_Node(NULL,NULL,0,testRoot->rightChild->rightChild->rightChild);
 	
 
-// }
+}
 
 
 
